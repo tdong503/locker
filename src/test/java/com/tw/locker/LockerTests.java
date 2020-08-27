@@ -13,10 +13,9 @@ public class LockerTests {
 
         SaveBagResponse actual = locker.saveBag(bag);
 
-        Integer ticketId = 1;
-        Ticket ticket = new Ticket(ticketId, bagId, false);
+        String  ticketId = actual.getTicket().getId();
+        Ticket ticket = new Ticket(ticketId, bagId);
         SaveBagResponse expected = new SaveBagResponse(true, "Save bag successfully.", ticket);
-
 
         assertEquals(expected.getIsSuccess(), actual.getIsSuccess());
         assertEquals(expected.getMessage(), actual.getMessage());
