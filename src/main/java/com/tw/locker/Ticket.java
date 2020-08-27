@@ -10,7 +10,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Ticket {
-    private Integer id;
+    private String id;
     private Integer bagId;
-    private boolean isUsed;
 }
