@@ -1,3 +1,40 @@
+Skip to content
+Search or jump to…
+
+Pull requests
+Issues
+Marketplace
+Explore
+
+@tdong503
+Learn Git and GitHub without any code!
+Using the Hello World guide, you’ll start a branch, write comments, and open a pull request.
+
+
+tdong503
+/
+gilederose
+1
+0
+0
+Code
+Issues
+Pull requests
+Actions
+Projects
+Wiki
+Security
+Insights
+Settings
+gilederose/.gitignore
+@dong-biao
+dong-biao init project and add tasking in readme
+Latest commit 580674b 13 days ago
+ History
+ 2 contributors
+@dong-biao@tdong503
+55 lines (49 sloc)  671 Bytes
+
 # Compiled class file
 *.class
 
@@ -21,3 +58,47 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+
+# Ignore all logfiles and tempfiles.
+/log/*
+/logs/*
+.gradle/*
+.idea/*
+.mvn/*
+/.idea
+product-presentment.iml
+target/
+application.tar
+build.hwm
+build.pwd
+build.pwi
+log/
+logs/
+output/*
+*.retry
+LOG_FILE_IS_UNDEFINED*
+src/main/resources/certs/*.cer
+src/main/resources/certs/*.key
+*.DS_Store
+*.iml
+.gitconfig
+node_modules/*
+nohup.out
+reports/*
+classes/*
+ops/ansible/output
+**/*/.idea/
+.m2/*
+build/*
+© 2020 GitHub, Inc.
+Terms
+Privacy
+Security
+Status
+Help
+Contact GitHub
+Pricing
+API
+Training
+Blog
+About
