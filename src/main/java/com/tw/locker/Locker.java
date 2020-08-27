@@ -2,6 +2,7 @@ package com.tw.locker;
 
 public class Locker {
     public SaveBagResponse saveBag(Bag bag) {
-        return null;
+        SaveBagResponse response = new SaveBagResponse(true, "Save bag successfully.", new Ticket(1, bag.getId(), false));
+        return response;
     }
 }

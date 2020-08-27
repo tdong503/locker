@@ -17,6 +17,10 @@ public class LockerTests {
         Ticket ticket = new Ticket(ticketId, bagId, false);
         SaveBagResponse expected = new SaveBagResponse(true, "Save bag successfully.", ticket);
 
-        assertEquals(expected, actual);
+
+        assertEquals(expected.getIsSuccess(), actual.getIsSuccess());
+        assertEquals(expected.getMessage(), actual.getMessage());
+        assertEquals(expected.getTicket().getBagId(), actual.getTicket().getBagId());
+        assertEquals(expected.getTicket().getId(), actual.getTicket().getId());
     }
 }
