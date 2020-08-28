@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import static com.tw.locker.Messages.*;
@@ -44,8 +45,13 @@ public class Locker {
     }
 
     public TakeBagResponse takeBag(Ticket ticket) {
-        Bag bag = bags.stream().filter(x -> x.getId().equals(ticket.getBagId())).findFirst().orElse(null);
+        Optional<Ticket> validTicket = this.tickets.stream().filter(x -> x.getId().equals(ticket.getId())).findFirst();
+        if(validTicket.isPresent()) {
+            Bag bag = bags.stream().filter(x -> x.getId().equals(ticket.getBagId())).findFirst().orElse(null);
 
-        return new TakeBagResponse(true, TAKE_BAG_SUCCESSFULLY, bag);
+            return new TakeBagResponse(true, TAKE_BAG_SUCCESSFULLY, bag);
+        } else {
+            return new TakeBagResponse(false, "Ticket does not exist.", null);
+        }
     }
 }
