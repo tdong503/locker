@@ -30,8 +30,32 @@ public class Locker {
         return new SaveBagResponse(false, NO_STORAGE, null);
     }
 
+    public TakeBagResponse takeBag(Ticket ticket) {
+        Optional<Ticket> validTicket = this.tickets.stream().filter(x -> x.getId().equals(ticket.getId())).findFirst();
+        if(validTicket.isPresent()) {
+            Bag bag = takeBagOutFromBox(ticket);
+            archiveTicket(ticket);
+
+            return new TakeBagResponse(true, TAKE_BAG_SUCCESSFULLY, bag);
+        } else if (this.usedTickets.stream().anyMatch(x -> x.getId().equals(ticket.getId()))) {
+            return new TakeBagResponse(false, USED_TICKET, null);
+        } else {
+            return new TakeBagResponse(false, FAKE_TICKET, null);
+        }
+    }
+
     private void putBagInBox(Bag bag) {
         bags.add(bag);
+    }
+
+    private Bag takeBagOutFromBox(Ticket ticket) {
+        Optional<Bag> bag = bags.stream().filter(x -> x.getId().equals(ticket.getBagId())).findFirst();
+        bags.remove(bag.get());
+        return bag.get();
+    }
+
+    private void recordTicket(Ticket ticket) {
+        tickets.add(ticket);
     }
 
     private Ticket generateTicket(Integer bagId) {
@@ -41,24 +65,8 @@ public class Locker {
         return ticket;
     }
 
-    private void recordTicket(Ticket ticket) {
-        tickets.add(ticket);
-    }
-
-    public TakeBagResponse takeBag(Ticket ticket) {
-        Optional<Ticket> validTicket = this.tickets.stream().filter(x -> x.getId().equals(ticket.getId())).findFirst();
-        if(validTicket.isPresent()) {
-            Optional<Bag> bag = bags.stream().filter(x -> x.getId().equals(ticket.getBagId())).findFirst();
-
-            tickets.remove(ticket);
-            bags.remove(bag.get());
-            usedTickets.add(ticket);
-
-            return new TakeBagResponse(true, TAKE_BAG_SUCCESSFULLY, bag.get());
-        } else if (this.usedTickets.stream().anyMatch(x -> x.getId().equals(ticket.getId()))) {
-            return new TakeBagResponse(false, "Ticket was used.", null);
-        } else {
-            return new TakeBagResponse(false, FAKE_TICKET, null);
-        }
+    private void archiveTicket(Ticket ticket) {
+        tickets.remove(ticket);
+        usedTickets.add(ticket);
     }
 }

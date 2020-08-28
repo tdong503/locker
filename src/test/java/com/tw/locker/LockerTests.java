@@ -67,7 +67,7 @@ public class LockerTests {
     public void should_not_return_bag_and_return_invalid_error_when_take_bag_given_a_fake_ticket_provided() {
         Integer bagId = 1;
         Bag bag = new Bag(bagId);
-        SaveBagResponse response = locker.saveBag(bag);
+        locker.saveBag(bag);
 
         Ticket fakeTicket = new Ticket("Fake Ticket Id", bagId);
 
@@ -90,7 +90,7 @@ public class LockerTests {
         TakeBagResponse actual = locker.takeBag(ticket);
 
         assertEquals(false, actual.getIsSuccess());
-        assertEquals("Ticket was used.", actual.getMessage());
+        assertEquals(USED_TICKET, actual.getMessage());
         assertNull(actual.getBag());
     }
 }
