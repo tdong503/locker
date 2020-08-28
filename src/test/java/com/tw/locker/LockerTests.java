@@ -4,10 +4,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.concurrent.locks.Lock;
-
+import static com.tw.locker.Messages.NOSTORAGE;
 import static com.tw.locker.Messages.SUCCESS;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 @SpringBootTest
 public class LockerTests {
@@ -29,5 +29,21 @@ public class LockerTests {
         assertEquals(true, actual.getIsSuccess());
         assertEquals(SUCCESS, actual.getMessage());
         assertEquals(bagId, actual.getTicket().getBagId());
+    }
+
+    @Test
+    public void should_not_save_bag_and_return_error_message_when_save_bag_given_locker_has_no_storage() {
+        Integer bagId = 1;
+        Bag bag = new Bag(bagId);
+        locker.saveBag(bag);
+
+        Integer newBagId = 2;
+        Bag newBag = new Bag(newBagId);
+
+        SaveBagResponse actual = locker.saveBag(newBag);
+
+        assertEquals(false, actual.getIsSuccess());
+        assertEquals(NOSTORAGE, actual.getMessage());
+        assertNull(actual.getTicket());
     }
 }
