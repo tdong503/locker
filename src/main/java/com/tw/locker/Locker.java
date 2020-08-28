@@ -15,33 +15,32 @@ public class Locker {
     private List<Ticket> tickets = new ArrayList<>();
     private List<Bag> bags = new ArrayList<>();
 
-    private Integer capacity = 1;
+    @Value("${locker.capacity}")
+    private Integer capacity;
 
     public SaveBagResponse saveBag(Bag bag) {
-        SaveBagResponse saveBagResponse;
         if(this.bags.size() < capacity) {
-            addBag(bag);
+            putBagInBox(bag);
             Ticket ticket = generateTicket(bag.getId());
-            addTicket(ticket);
 
-            saveBagResponse = new SaveBagResponse(true, SUCCESS, ticket);
-        } else {
-            saveBagResponse = new SaveBagResponse(false, NOSTORAGE, null);
+            return new SaveBagResponse(true, SUCCESS, ticket);
         }
 
-        return saveBagResponse;
+        return new SaveBagResponse(false, NOSTORAGE, null);
     }
 
-    private void addBag(Bag bag) {
+    private void putBagInBox(Bag bag) {
         bags.add(bag);
-    }
-
-    private void addTicket(Ticket ticket) {
-        tickets.add(ticket);
     }
 
     private Ticket generateTicket(Integer bagId) {
         String ticketId = UUID.randomUUID().toString();
-        return new Ticket(ticketId, bagId);
+        Ticket ticket = new Ticket(ticketId, bagId);
+        recordTicket(ticket);
+        return ticket;
+    }
+
+    private void recordTicket(Ticket ticket) {
+        tickets.add(ticket);
     }
 }
