@@ -43,4 +43,8 @@ public class Locker {
     private void recordTicket(Ticket ticket) {
         tickets.add(ticket);
     }
+
+    public TakeBagResponse takeBag(Ticket ticket) {
+        return null;
+    }
 }

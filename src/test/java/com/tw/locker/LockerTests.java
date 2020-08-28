@@ -46,4 +46,19 @@ public class LockerTests {
         assertEquals(NOSTORAGE, actual.getMessage());
         assertNull(actual.getTicket());
     }
+
+    @Test
+    public void should_return_corresponding_bag_when_take_bag_given_a_valid_ticket_provided() {
+        Integer bagId = 1;
+        Bag bag = new Bag(bagId);
+        SaveBagResponse response = locker.saveBag(bag);
+
+        Ticket ticket = response.getTicket();
+
+        TakeBagResponse actual = locker.takeBag(ticket);
+
+        assertEquals(true, actual.getIsSuccess());
+        assertEquals("Take Bag Successfully.", actual.getMessage());
+        assertEquals(bagId, actual.getBag().getId());
+    }
 }
