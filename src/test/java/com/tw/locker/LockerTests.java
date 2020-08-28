@@ -5,8 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 
-import static com.tw.locker.Messages.NOSTORAGE;
-import static com.tw.locker.Messages.SUCCESS;
+import static com.tw.locker.Messages.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
@@ -29,7 +28,7 @@ public class LockerTests {
         SaveBagResponse actual = locker.saveBag(bag);
 
         assertEquals(true, actual.getIsSuccess());
-        assertEquals(SUCCESS, actual.getMessage());
+        assertEquals(SAVE_BAG_SUCCESSFULLY, actual.getMessage());
         assertEquals(bagId, actual.getTicket().getBagId());
     }
 
@@ -45,7 +44,7 @@ public class LockerTests {
         SaveBagResponse actual = locker.saveBag(newBag);
 
         assertEquals(false, actual.getIsSuccess());
-        assertEquals(NOSTORAGE, actual.getMessage());
+        assertEquals(NO_STORAGE, actual.getMessage());
         assertNull(actual.getTicket());
     }
 
@@ -60,7 +59,7 @@ public class LockerTests {
         TakeBagResponse actual = locker.takeBag(ticket);
 
         assertEquals(true, actual.getIsSuccess());
-        assertEquals("Take Bag Successfully.", actual.getMessage());
+        assertEquals(TAKE_BAG_SUCCESSFULLY, actual.getMessage());
         assertEquals(bagId, actual.getBag().getId());
     }
 }

@@ -7,8 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static com.tw.locker.Messages.NOSTORAGE;
-import static com.tw.locker.Messages.SUCCESS;
+import static com.tw.locker.Messages.*;
 
 @Component
 public class Locker {
@@ -23,10 +22,10 @@ public class Locker {
             putBagInBox(bag);
             Ticket ticket = generateTicket(bag.getId());
 
-            return new SaveBagResponse(true, SUCCESS, ticket);
+            return new SaveBagResponse(true, SAVE_BAG_SUCCESSFULLY, ticket);
         }
 
-        return new SaveBagResponse(false, NOSTORAGE, null);
+        return new SaveBagResponse(false, NO_STORAGE, null);
     }
 
     private void putBagInBox(Bag bag) {
@@ -47,6 +46,6 @@ public class Locker {
     public TakeBagResponse takeBag(Ticket ticket) {
         Bag bag = bags.stream().filter(x -> x.getId().equals(ticket.getBagId())).findFirst().orElse(null);
 
-        return new TakeBagResponse(true, "Take Bag Successfully.", bag);
+        return new TakeBagResponse(true, TAKE_BAG_SUCCESSFULLY, bag);
     }
 }
