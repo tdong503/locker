@@ -62,4 +62,19 @@ public class LockerTests {
         assertEquals(TAKE_BAG_SUCCESSFULLY, actual.getMessage());
         assertEquals(bagId, actual.getBag().getId());
     }
+
+    @Test
+    public void should_not_return_bag_and_return_invalid_error_when_take_bag_given_a_fake_ticket_provided() {
+        Integer bagId = 1;
+        Bag bag = new Bag(bagId);
+        SaveBagResponse response = locker.saveBag(bag);
+
+        Ticket fakeTicket = new Ticket("Fake Ticket Id", bagId);
+
+        TakeBagResponse actual = locker.takeBag(fakeTicket);
+
+        assertEquals(false, actual.getIsSuccess());
+        assertEquals("Ticket does not exist.", actual.getMessage());
+        assertNull(actual.getBag());
+    }
 }
