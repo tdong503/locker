@@ -1,5 +1,5 @@
 ### 需求描述
-储物柜(Locker)可以存包、取包
+储物柜()可以存包、取包
 
 ### 需求澄清总结：
 1. 储物柜容量不限制是指容量不固定，但是一定是会存满的
@@ -13,10 +13,10 @@
 
 ### Tasking
 ```
-1. Given Locker有可用容量 When Locker存包 Then 存包成功，返回票据
-2. Given Locker无可用容量 When Locker存包 Then 存包失败，提示储物柜已满  
-3. Given 一张有效票据 When Locker取包 Then 取包成功，并且是票据对应的包
-4. Given 一张伪造票据 When Locker取包 Then 取包失败，提示无此票据
-5. Given 一张重复使用的票据 When Locker取包 Then 取包失败，提示非法票据  
-6. Given 一张识别失败的票据 When Locker取包 Then 取包失败，提示非法票据
+1. Given Locker 有可用容量 When 存包 Then 存包成功，返回票据
+2. Given Locker 无可用容量 When 存包 Then 存包失败，提示储物柜已满  
+3. Given 一张有效票据 When 取包 Then 取包成功，并且是票据对应的包
+4. Given 一张伪造票据 When 取包 Then 取包失败，提示无此票据
+5. Given 一张重复使用的票据 When 取包 Then 取包失败，提示票据已被使用过  
+6. Given 一张识别失败的票据 When 取包 Then 取包失败，提示无法识别
 ```

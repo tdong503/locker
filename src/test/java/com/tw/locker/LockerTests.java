@@ -77,4 +77,20 @@ public class LockerTests {
         assertEquals(FAKE_TICKET, actual.getMessage());
         assertNull(actual.getBag());
     }
+
+    @Test
+    public void should_not_return_bag_and_return_used_error_when_take_bag_given_a_used_ticker_provided() {
+        Integer bagId = 1;
+        Bag bag = new Bag(bagId);
+        SaveBagResponse response = locker.saveBag(bag);
+
+        Ticket ticket = response.getTicket();
+        locker.takeBag(ticket);
+
+        TakeBagResponse actual = locker.takeBag(ticket);
+
+        assertEquals(false, actual.getIsSuccess());
+        assertEquals("Ticket was used.", actual.getMessage());
+        assertNull(actual.getBag());
+    }
 }
