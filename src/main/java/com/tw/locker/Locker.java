@@ -20,7 +20,7 @@ public class Locker {
     private Integer capacity;
 
     public SaveBagResponse saveBag(Bag bag) {
-        if(this.bags.size() < capacity) {
+        if (this.bags.size() < capacity) {
             putBagInBox(bag);
             Ticket ticket = generateTicket(bag.getId());
 
@@ -31,8 +31,12 @@ public class Locker {
     }
 
     public TakeBagResponse takeBag(Ticket ticket) {
+        if (ticket == null) {
+            return new TakeBagResponse(false, "Unrecognized ticket.", null);
+        }
+
         Optional<Ticket> validTicket = this.tickets.stream().filter(x -> x.getId().equals(ticket.getId())).findFirst();
-        if(validTicket.isPresent()) {
+        if (validTicket.isPresent()) {
             Bag bag = takeBagOutFromBox(ticket);
             archiveTicket(ticket);
 
