@@ -93,4 +93,13 @@ public class LockerTests {
         assertEquals(USED_TICKET, actual.getMessage());
         assertNull(actual.getBag());
     }
+
+    @Test
+    public void should_not_return_bag_and_return_unrecognized_error_when_take_bag_given_an_unrecognized_ticket_provided() {
+        TakeBagResponse actual = locker.takeBag(null);
+
+        assertEquals(false, actual.getIsSuccess());
+        assertEquals("Unrecognized ticket.", actual.getMessage());
+        assertNull(actual.getBag());
+    }
 }
