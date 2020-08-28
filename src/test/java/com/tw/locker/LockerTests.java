@@ -74,7 +74,7 @@ public class LockerTests {
         TakeBagResponse actual = locker.takeBag(fakeTicket);
 
         assertEquals(false, actual.getIsSuccess());
-        assertEquals("Ticket does not exist.", actual.getMessage());
+        assertEquals(FAKE_TICKET, actual.getMessage());
         assertNull(actual.getBag());
     }
 }

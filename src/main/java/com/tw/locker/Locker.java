@@ -47,11 +47,11 @@ public class Locker {
     public TakeBagResponse takeBag(Ticket ticket) {
         Optional<Ticket> validTicket = this.tickets.stream().filter(x -> x.getId().equals(ticket.getId())).findFirst();
         if(validTicket.isPresent()) {
-            Bag bag = bags.stream().filter(x -> x.getId().equals(ticket.getBagId())).findFirst().orElse(null);
+            Optional<Bag> bag = bags.stream().filter(x -> x.getId().equals(ticket.getBagId())).findFirst();
 
-            return new TakeBagResponse(true, TAKE_BAG_SUCCESSFULLY, bag);
+            return new TakeBagResponse(true, TAKE_BAG_SUCCESSFULLY, bag.get());
         } else {
-            return new TakeBagResponse(false, "Ticket does not exist.", null);
+            return new TakeBagResponse(false, FAKE_TICKET, null);
         }
     }
 }
