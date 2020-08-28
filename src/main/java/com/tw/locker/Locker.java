@@ -45,6 +45,8 @@ public class Locker {
     }
 
     public TakeBagResponse takeBag(Ticket ticket) {
-        return null;
+        Bag bag = bags.stream().filter(x -> x.getId().equals(ticket.getBagId())).findFirst().orElse(null);
+
+        return new TakeBagResponse(true, "Take Bag Successfully.", bag);
     }
 }
