@@ -1,11 +1,13 @@
 package com.tw.locker;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import static com.tw.locker.Messages.NOSTORAGE;
 import static com.tw.locker.Messages.SUCCESS;
 
 @Component
@@ -13,12 +15,20 @@ public class Locker {
     private List<Ticket> tickets = new ArrayList<>();
     private List<Bag> bags = new ArrayList<>();
 
-    public SaveBagResponse saveBag(Bag bag) {
-        addBag(bag);
-        Ticket ticket = generateTicket(bag.getId());
-        addTicket(ticket);
+    private Integer capacity = 1;
 
-        SaveBagResponse saveBagResponse = new SaveBagResponse(true, SUCCESS, ticket);
+    public SaveBagResponse saveBag(Bag bag) {
+        SaveBagResponse saveBagResponse;
+        if(this.bags.size() < capacity) {
+            addBag(bag);
+            Ticket ticket = generateTicket(bag.getId());
+            addTicket(ticket);
+
+            saveBagResponse = new SaveBagResponse(true, SUCCESS, ticket);
+        } else {
+            saveBagResponse = new SaveBagResponse(false, NOSTORAGE, null);
+        }
+
         return saveBagResponse;
     }
 
