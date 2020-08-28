@@ -32,11 +32,10 @@ public class Locker {
 
     public TakeBagResponse takeBag(Ticket ticket) {
         if (ticket == null) {
-            return new TakeBagResponse(false, "Unrecognized ticket.", null);
+            return new TakeBagResponse(false, UNRECOGNIZED_TICKET, null);
         }
 
-        Optional<Ticket> validTicket = this.tickets.stream().filter(x -> x.getId().equals(ticket.getId())).findFirst();
-        if (validTicket.isPresent()) {
+        if (this.tickets.stream().anyMatch(x -> x.getId().equals(ticket.getId()))) {
             Bag bag = takeBagOutFromBox(ticket);
             archiveTicket(ticket);
 

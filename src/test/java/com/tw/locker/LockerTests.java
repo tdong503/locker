@@ -99,7 +99,7 @@ public class LockerTests {
         TakeBagResponse actual = locker.takeBag(null);
 
         assertEquals(false, actual.getIsSuccess());
-        assertEquals("Unrecognized ticket.", actual.getMessage());
+        assertEquals(UNRECOGNIZED_TICKET, actual.getMessage());
         assertNull(actual.getBag());
     }
 }
