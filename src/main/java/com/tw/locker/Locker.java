@@ -13,6 +13,7 @@ import static com.tw.locker.Messages.*;
 @Component
 public class Locker {
     private List<Ticket> tickets = new ArrayList<>();
+    private List<Ticket> usedTickets = new ArrayList<>();
     private List<Bag> bags = new ArrayList<>();
 
     @Value("${locker.capacity}")
@@ -49,7 +50,13 @@ public class Locker {
         if(validTicket.isPresent()) {
             Optional<Bag> bag = bags.stream().filter(x -> x.getId().equals(ticket.getBagId())).findFirst();
 
+            tickets.remove(ticket);
+            bags.remove(bag.get());
+            usedTickets.add(ticket);
+
             return new TakeBagResponse(true, TAKE_BAG_SUCCESSFULLY, bag.get());
+        } else if (this.usedTickets.stream().anyMatch(x -> x.getId().equals(ticket.getId()))) {
+            return new TakeBagResponse(false, "Ticket was used.", null);
         } else {
             return new TakeBagResponse(false, FAKE_TICKET, null);
         }
