@@ -1,5 +1,7 @@
 package com.tw.locker;
 
+import com.tw.locker.exceptions.NoStorageException;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -16,6 +18,6 @@ public class PrimaryLockerRobot {
             return availableLocker.get().saveBag(bag);
         }
 
-        return null;
+        throw new NoStorageException();
     }
 }
