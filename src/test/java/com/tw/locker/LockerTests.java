@@ -20,7 +20,7 @@ class LockerTests {
     @BeforeEach
     void Init() {
         Integer capacity = 1;
-        this.locker = new Locker("Test lockerId", capacity);
+        this.locker = new Locker("Test Locker Id", capacity);
     }
 
     @Test
@@ -64,7 +64,7 @@ class LockerTests {
         Bag bag = new Bag(bagId);
         locker.saveBag(bag);
 
-        Ticket fakeTicket = new Ticket("Fake Ticket Id", bagId, "Test ticketId");
+        Ticket fakeTicket = new Ticket("Fake Ticket Id", bagId, "Test Locker Id");
 
         assertThrows(FakeTicketException.class, () -> locker.takeBag(fakeTicket));
     }
