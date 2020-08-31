@@ -32,10 +32,6 @@ public class Locker {
     }
 
     public Bag takeBag(Ticket ticket) {
-        if (ticket == null) {
-            throw new UnrecognizedTicketException();
-        }
-
         if (this.tickets.stream().anyMatch(x -> x.getId().equals(ticket.getId()))) {
             Bag bag = takeBagOutFromLocker(ticket);
             archiveTicket(ticket);

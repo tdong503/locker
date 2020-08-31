@@ -2,6 +2,7 @@ package com.tw.locker;
 
 import com.tw.locker.exceptions.FakeTicketException;
 import com.tw.locker.exceptions.NoStorageException;
+import com.tw.locker.exceptions.UnrecognizedTicketException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -109,5 +110,10 @@ class PrimaryLockerRobotTests {
         Ticket fakeTicket = new Ticket("Fake Ticket Id", bagId, "Fake Locker Id");
 
         assertThrows(FakeTicketException.class, () -> primaryLockerRobot.takeBag(fakeTicket));
+    }
+
+    @Test
+    void should_not_return_bag_and_return_unrecognized_error_when_take_bag_given_an_unrecognized_ticket_provided() {
+        assertThrows(UnrecognizedTicketException.class, () -> primaryLockerRobot.takeBag(null));
     }
 }

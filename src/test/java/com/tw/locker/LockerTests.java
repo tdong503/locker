@@ -79,9 +79,4 @@ class LockerTests {
 
         assertThrows(UsedTicketException.class, () -> locker.takeBag(ticket));
     }
-
-    @Test
-    void should_not_return_bag_and_return_unrecognized_error_when_take_bag_given_an_unrecognized_ticket_provided() {
-        assertThrows(UnrecognizedTicketException.class, () -> locker.takeBag(null));
-    }
 }
