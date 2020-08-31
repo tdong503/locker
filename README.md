@@ -12,14 +12,12 @@
 8. 不考虑并发
 
 ### Tasking
-```
 1. Given Locker 有可用容量 When 存包 Then 存包成功，返回票据
 2. Given Locker 无可用容量 When 存包 Then 存包失败，提示储物柜已满  
 3. Given 一张有效票据 When 取包 Then 取包成功，并且是票据对应的包
 4. Given 一张伪造票据 When 取包 Then 取包失败，提示无此票据
 5. Given 一张重复使用的票据 When 取包 Then 取包失败，提示票据已被使用过  
 6. Given 一张识别失败的票据 When 取包 Then 取包失败，提示无法识别
-```
 
 ----------------------------------------------
 ### 需求：作为一个初级储物柜机器人，我能够按储物柜的顺序来存包，也能取包
@@ -33,11 +31,10 @@ Note：
 在Locker的基础上继续完善，不需要重新创建仓库
 
 ### Tasking
-```
 1. Given PrimaryLockerRobot管理多个Locker，每个Locker都有可用容量 When PrimaryLockerRobot存包 Then 成功存入第一个Locker，并且返回票据
-2. Given PrimaryLockerRobot管理多个Locker，第一个Locker存满，第二个Locker有可用容量 When PrimaryLockerRobot存包 Then 成功存入第二个Locer，并且返回票据
+2. Given PrimaryLockerRobot管理多个Locker，第一个Locker存满，第二个Locker有可用容量 When PrimaryLockerRobot存包 Then 成功存入第二个Locker，并且返回票据
 3. Given PrimaryLockerRobot管理多个Locker，都没有可用容量 Then PrimaryLockerRobot存包 Then 存包失败，提示所有储物柜已满
-4. Given PrimaryLockerRobot管理多个Locker，并且拿到一张有效的票 When PrimaryLockerRobot取包 Then 取包成功，并且是票据所对应的包
-5. Given PrimaryLockerRobot管理多个Locker，并且拿到一个伪造的票 When PrimaryLockerRobot取包 Then 取包失败，提示非法票据
-6. Given PrimaryLockerRobot管理多个Locker，并且拿到一个无法识别的票 When PrimaryLockerRobot取包 Then取包失败，提示无法识别
-```
+4. Given PrimaryLockerRobot管理多个Locker，并且拿到一张有效的票据 When PrimaryLockerRobot取包 Then 取包成功，并且是票据所对应的包
+5. Given PrimaryLockerRobot管理多个Locker，并且拿到一个伪造的票据 When PrimaryLockerRobot取包 Then 取包失败，提示非法票据
+6. Given PrimaryLockerRobot管理多个Locker，并且拿到一个无法识别的票据 When PrimaryLockerRobot取包 Then取包失败，提示无法识别
+
