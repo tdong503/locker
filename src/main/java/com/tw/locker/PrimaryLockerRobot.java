@@ -1,5 +1,6 @@
 package com.tw.locker;
 
+import com.tw.locker.exceptions.FakeTicketException;
 import com.tw.locker.exceptions.NoStorageException;
 
 import java.util.List;
@@ -27,6 +28,6 @@ public class PrimaryLockerRobot {
             return availableLocker.get().takeBag(ticket);
         }
 
-        return null;
+        throw new FakeTicketException();
     }
 }

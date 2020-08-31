@@ -1,5 +1,6 @@
 package com.tw.locker;
 
+import com.tw.locker.exceptions.FakeTicketException;
 import com.tw.locker.exceptions.NoStorageException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -78,5 +79,35 @@ class PrimaryLockerRobotTests {
 
         assertNotNull(actual);
         assertEquals(newBagId, actual.getId());
+    }
+
+    @Test
+    void should_not_return_bag_and_return_fake_error_when_take_bag_given_a_fake_ticket_provided_and_valid_locker() {
+        Integer bagId = 1;
+        Bag bag = new Bag(bagId);
+        primaryLockerRobot.saveBag(bag);
+
+        Integer newBagId = 2;
+        Bag newBag = new Bag(newBagId);
+        primaryLockerRobot.saveBag(newBag);
+
+        Ticket fakeTicket = new Ticket("Fake Ticket Id", bagId, testLockerId1);
+
+        assertThrows(FakeTicketException.class, () -> primaryLockerRobot.takeBag(fakeTicket));
+    }
+
+    @Test
+    void should_not_return_bag_and_return_fake_error_when_take_bag_given_a_fake_ticket_provided_and_invalid_locker() {
+        Integer bagId = 1;
+        Bag bag = new Bag(bagId);
+        primaryLockerRobot.saveBag(bag);
+
+        Integer newBagId = 2;
+        Bag newBag = new Bag(newBagId);
+        primaryLockerRobot.saveBag(newBag);
+
+        Ticket fakeTicket = new Ticket("Fake Ticket Id", bagId, "Fake Locker Id");
+
+        assertThrows(FakeTicketException.class, () -> primaryLockerRobot.takeBag(fakeTicket));
     }
 }
