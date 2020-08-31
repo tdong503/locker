@@ -1,19 +1,21 @@
 package com.tw.locker;
 
+import com.tw.locker.exceptions.FakeTicketException;
+import com.tw.locker.exceptions.NoStorageException;
+import com.tw.locker.exceptions.UnrecognizedTicketException;
+import com.tw.locker.exceptions.UsedTicketException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 
-import static com.tw.locker.Messages.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-public class LockerTests {
+class LockerTests {
 
-    private Locker locker;
+    private final Locker locker;
 
     @Autowired
     public LockerTests(Locker locker) {
@@ -21,19 +23,18 @@ public class LockerTests {
     }
 
     @Test
-    public void should_save_bag_and_return_a_ticket_when_save_bag_given_locker_has_storage() {
+    void should_save_bag_and_return_a_ticket_when_save_bag_given_locker_has_storage() {
         Integer bagId = 1;
         Bag bag = new Bag(bagId);
 
-        SaveBagResponse actual = locker.saveBag(bag);
+        Ticket actual = locker.saveBag(bag);
 
-        assertEquals(true, actual.getIsSuccess());
-        assertEquals(SAVE_BAG_SUCCESSFULLY, actual.getMessage());
-        assertEquals(bagId, actual.getTicket().getBagId());
+        assertNotNull(actual);
+        assertEquals(bagId, actual.getBagId());
     }
 
     @Test
-    public void should_not_save_bag_and_return_error_message_when_save_bag_given_locker_has_no_storage() {
+    void should_not_save_bag_and_return_error_message_when_save_bag_given_locker_has_no_storage() {
         Integer bagId = 1;
         Bag bag = new Bag(bagId);
         locker.saveBag(bag);
@@ -41,65 +42,45 @@ public class LockerTests {
         Integer newBagId = 2;
         Bag newBag = new Bag(newBagId);
 
-        SaveBagResponse actual = locker.saveBag(newBag);
-
-        assertEquals(false, actual.getIsSuccess());
-        assertEquals(NO_STORAGE, actual.getMessage());
-        assertNull(actual.getTicket());
+        assertThrows(NoStorageException.class, () -> locker.saveBag(newBag));
     }
 
     @Test
-    public void should_return_corresponding_bag_when_take_bag_given_a_valid_ticket_provided() {
+    void should_return_corresponding_bag_when_take_bag_given_a_valid_ticket_provided() {
         Integer bagId = 1;
         Bag bag = new Bag(bagId);
-        SaveBagResponse response = locker.saveBag(bag);
+        Ticket ticket = locker.saveBag(bag);
 
-        Ticket ticket = response.getTicket();
+        Bag actual = locker.takeBag(ticket);
 
-        TakeBagResponse actual = locker.takeBag(ticket);
-
-        assertEquals(true, actual.getIsSuccess());
-        assertEquals(TAKE_BAG_SUCCESSFULLY, actual.getMessage());
-        assertEquals(bagId, actual.getBag().getId());
+        assertNotNull(actual);
+        assertEquals(bagId, actual.getId());
     }
 
     @Test
-    public void should_not_return_bag_and_return_invalid_error_when_take_bag_given_a_fake_ticket_provided() {
+    void should_not_return_bag_and_return_invalid_error_when_take_bag_given_a_fake_ticket_provided() {
         Integer bagId = 1;
         Bag bag = new Bag(bagId);
         locker.saveBag(bag);
 
         Ticket fakeTicket = new Ticket("Fake Ticket Id", bagId);
 
-        TakeBagResponse actual = locker.takeBag(fakeTicket);
-
-        assertEquals(false, actual.getIsSuccess());
-        assertEquals(FAKE_TICKET, actual.getMessage());
-        assertNull(actual.getBag());
+        assertThrows(FakeTicketException.class, () -> locker.takeBag(fakeTicket));
     }
 
     @Test
-    public void should_not_return_bag_and_return_used_error_when_take_bag_given_a_used_ticker_provided() {
+    void should_not_return_bag_and_return_used_error_when_take_bag_given_a_used_ticker_provided() {
         Integer bagId = 1;
         Bag bag = new Bag(bagId);
-        SaveBagResponse response = locker.saveBag(bag);
+        Ticket ticket = locker.saveBag(bag);
 
-        Ticket ticket = response.getTicket();
         locker.takeBag(ticket);
 
-        TakeBagResponse actual = locker.takeBag(ticket);
-
-        assertEquals(false, actual.getIsSuccess());
-        assertEquals(USED_TICKET, actual.getMessage());
-        assertNull(actual.getBag());
+        assertThrows(UsedTicketException.class, () -> locker.takeBag(ticket));
     }
 
     @Test
-    public void should_not_return_bag_and_return_unrecognized_error_when_take_bag_given_an_unrecognized_ticket_provided() {
-        TakeBagResponse actual = locker.takeBag(null);
-
-        assertEquals(false, actual.getIsSuccess());
-        assertEquals(UNRECOGNIZED_TICKET, actual.getMessage());
-        assertNull(actual.getBag());
+    void should_not_return_bag_and_return_unrecognized_error_when_take_bag_given_an_unrecognized_ticket_provided() {
+        assertThrows(UnrecognizedTicketException.class, () -> locker.takeBag(null));
     }
 }

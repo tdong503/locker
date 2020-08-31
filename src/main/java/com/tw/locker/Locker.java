@@ -1,60 +1,57 @@
 package com.tw.locker;
 
+import com.tw.locker.exceptions.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
-
-import static com.tw.locker.Messages.*;
 
 @Component
 public class Locker {
-    private List<Ticket> tickets = new ArrayList<>();
-    private List<Ticket> usedTickets = new ArrayList<>();
-    private List<Bag> bags = new ArrayList<>();
+    private final List<Ticket> tickets = new ArrayList<>();
+    private final List<Ticket> usedTickets = new ArrayList<>();
+    private final List<Bag> bags = new ArrayList<>();
 
     @Value("${locker.capacity}")
     private Integer capacity;
 
-    public SaveBagResponse saveBag(Bag bag) {
+    public Ticket saveBag(Bag bag) {
         if (this.bags.size() < capacity) {
-            putBagInBox(bag);
-            Ticket ticket = generateTicket(bag.getId());
+            putBagInLocker(bag);
 
-            return new SaveBagResponse(true, SAVE_BAG_SUCCESSFULLY, ticket);
+            return generateTicket(bag.getId());
         }
 
-        return new SaveBagResponse(false, NO_STORAGE, null);
+        throw new NoStorageException();
     }
 
-    public TakeBagResponse takeBag(Ticket ticket) {
+    public Bag takeBag(Ticket ticket) {
         if (ticket == null) {
-            return new TakeBagResponse(false, UNRECOGNIZED_TICKET, null);
+            throw new UnrecognizedTicketException();
         }
 
         if (this.tickets.stream().anyMatch(x -> x.getId().equals(ticket.getId()))) {
-            Bag bag = takeBagOutFromBox(ticket);
+            Bag bag = takeBagOutFromLocker(ticket);
             archiveTicket(ticket);
 
-            return new TakeBagResponse(true, TAKE_BAG_SUCCESSFULLY, bag);
+            return bag;
         } else if (this.usedTickets.stream().anyMatch(x -> x.getId().equals(ticket.getId()))) {
-            return new TakeBagResponse(false, USED_TICKET, null);
+            throw new UsedTicketException();
         } else {
-            return new TakeBagResponse(false, FAKE_TICKET, null);
+            throw new FakeTicketException();
         }
     }
 
-    private void putBagInBox(Bag bag) {
+    private void putBagInLocker(Bag bag) {
         bags.add(bag);
     }
 
-    private Bag takeBagOutFromBox(Ticket ticket) {
-        Optional<Bag> bag = bags.stream().filter(x -> x.getId().equals(ticket.getBagId())).findFirst();
-        bags.remove(bag.get());
-        return bag.get();
+    private Bag takeBagOutFromLocker(Ticket ticket) {
+        Bag bag = bags.stream().filter(x -> x.getId().equals(ticket.getBagId())).findFirst().orElseThrow(NoBagException::new);
+        bags.remove(bag);
+        return bag;
     }
 
     private void recordTicket(Ticket ticket) {
