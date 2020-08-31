@@ -1,6 +1,7 @@
 package com.tw.locker;
 
 import com.tw.locker.exceptions.*;
+import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +50,10 @@ public class Locker {
 
     public boolean hasStorage() {
         return this.bags.size() < capacity;
+    }
+
+    public String getLockerId() {
+        return this.lockerId;
     }
 
     private void putBagInLocker(Bag bag) {

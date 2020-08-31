@@ -20,4 +20,13 @@ public class PrimaryLockerRobot {
 
         throw new NoStorageException();
     }
+
+    public Bag takeBag(Ticket ticket) {
+        Optional<Locker> availableLocker = lockers.stream().filter(x -> x.getLockerId().equals(ticket.getLockerId())).findFirst();
+        if(availableLocker.isPresent()) {
+            return availableLocker.get().takeBag(ticket);
+        }
+
+        return null;
+    }
 }

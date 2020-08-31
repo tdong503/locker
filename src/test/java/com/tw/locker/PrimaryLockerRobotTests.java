@@ -63,4 +63,20 @@ class PrimaryLockerRobotTests {
 
         assertThrows(NoStorageException.class, () -> primaryLockerRobot.saveBag(newBag));
     }
+
+    @Test
+    void should_return_corresponding_bag_when_take_bag_given_a_valid_ticket_provided() {
+        Integer bagId = 1;
+        Bag bag = new Bag(bagId);
+        primaryLockerRobot.saveBag(bag);
+
+        Integer newBagId = 2;
+        Bag newBag = new Bag(newBagId);
+        Ticket ticket = primaryLockerRobot.saveBag(newBag);
+
+        Bag actual = primaryLockerRobot.takeBag(ticket);
+
+        assertNotNull(actual);
+        assertEquals(newBagId, actual.getId());
+    }
 }
