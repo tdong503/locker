@@ -4,8 +4,8 @@ import com.tw.locker.exceptions.FakeTicketException;
 import com.tw.locker.exceptions.NoStorageException;
 import com.tw.locker.exceptions.UnrecognizedTicketException;
 import com.tw.locker.exceptions.UsedTicketException;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 
@@ -15,11 +15,12 @@ import static org.junit.jupiter.api.Assertions.*;
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 class LockerTests {
 
-    private final Locker locker;
+    private Locker locker;
 
-    @Autowired
-    public LockerTests(Locker locker) {
-        this.locker = locker;
+    @BeforeEach
+    void Init() {
+        Integer capacity = 1;
+        this.locker = new Locker("Test lockerId", capacity);
     }
 
     @Test
@@ -63,7 +64,7 @@ class LockerTests {
         Bag bag = new Bag(bagId);
         locker.saveBag(bag);
 
-        Ticket fakeTicket = new Ticket("Fake Ticket Id", bagId);
+        Ticket fakeTicket = new Ticket("Fake Ticket Id", bagId, "Test ticketId");
 
         assertThrows(FakeTicketException.class, () -> locker.takeBag(fakeTicket));
     }

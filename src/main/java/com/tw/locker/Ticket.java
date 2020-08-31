@@ -12,4 +12,5 @@ import lombok.Setter;
 public class Ticket {
     private String id;
     private Integer bagId;
+    private String lockerId;
 }
