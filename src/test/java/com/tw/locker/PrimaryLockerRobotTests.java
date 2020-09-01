@@ -28,9 +28,7 @@ class PrimaryLockerRobotTests {
     @Test
     void should_save_bag_in_first_locker_and_return_a_ticket_when_save_bag_given_two_lockers_and_every_locker_has_storage() {
         Integer bagId = 1;
-        Bag bag = new Bag(bagId);
-
-        Ticket actual = primaryLockerRobot.saveBag(bag);
+        Ticket actual = primaryLockerRobot.saveBag(new Bag(bagId));
 
         assertNotNull(actual);
         assertEquals(bagId, actual.getBagId());
@@ -40,13 +38,11 @@ class PrimaryLockerRobotTests {
     @Test
     void should_save_bag_into_second_locker_and_return_a_ticket_when_save_bag_given_two_lockers_and_only_first_locker_no_storage() {
         for (int bagId = 1; bagId <= 2; bagId++) {
-            Bag bag = new Bag(bagId);
-            primaryLockerRobot.saveBag(bag);
+            primaryLockerRobot.saveBag(new Bag(bagId));
         }
 
         Integer newBagId = 3;
-        Bag newBag = new Bag(newBagId);
-        Ticket actual = primaryLockerRobot.saveBag(newBag);
+        Ticket actual = primaryLockerRobot.saveBag(new Bag(newBagId));
 
         assertNotNull(actual);
         assertEquals(newBagId, actual.getBagId());
@@ -56,8 +52,7 @@ class PrimaryLockerRobotTests {
     @Test
     void should_not_save_bag_when_save_bag_given_two_lockers_and_every_locker_has_no_storage() {
         for (int bagId = 1; bagId <= 4; bagId++) {
-            Bag bag = new Bag(bagId);
-            primaryLockerRobot.saveBag(bag);
+            primaryLockerRobot.saveBag(new Bag(bagId));
         }
 
         Integer newBagId = 5;
@@ -69,12 +64,10 @@ class PrimaryLockerRobotTests {
     @Test
     void should_return_corresponding_bag_when_take_bag_given_a_valid_ticket_provided() {
         Integer bagId = 1;
-        Bag bag = new Bag(bagId);
-        primaryLockerRobot.saveBag(bag);
+        primaryLockerRobot.saveBag(new Bag(bagId));
 
         Integer newBagId = 2;
-        Bag newBag = new Bag(newBagId);
-        Ticket ticket = primaryLockerRobot.saveBag(newBag);
+        Ticket ticket = primaryLockerRobot.saveBag(new Bag(newBagId));
 
         Bag actual = primaryLockerRobot.takeBag(ticket);
 
@@ -85,12 +78,10 @@ class PrimaryLockerRobotTests {
     @Test
     void should_not_return_bag_and_return_fake_error_when_take_bag_given_a_fake_ticket_provided_and_valid_locker() {
         Integer bagId = 1;
-        Bag bag = new Bag(bagId);
-        primaryLockerRobot.saveBag(bag);
+        primaryLockerRobot.saveBag(new Bag(bagId));
 
         Integer newBagId = 2;
-        Bag newBag = new Bag(newBagId);
-        primaryLockerRobot.saveBag(newBag);
+        primaryLockerRobot.saveBag(new Bag(newBagId));
 
         Ticket fakeTicket = new Ticket("Fake Ticket Id", bagId, testLockerId1);
 
@@ -100,12 +91,10 @@ class PrimaryLockerRobotTests {
     @Test
     void should_not_return_bag_and_return_fake_error_when_take_bag_given_a_fake_ticket_provided_and_invalid_locker() {
         Integer bagId = 1;
-        Bag bag = new Bag(bagId);
-        primaryLockerRobot.saveBag(bag);
+        primaryLockerRobot.saveBag(new Bag(bagId));
 
         Integer newBagId = 2;
-        Bag newBag = new Bag(newBagId);
-        primaryLockerRobot.saveBag(newBag);
+        primaryLockerRobot.saveBag(new Bag(newBagId));
 
         Ticket fakeTicket = new Ticket("Fake Ticket Id", bagId, "Fake Locker Id");
 
