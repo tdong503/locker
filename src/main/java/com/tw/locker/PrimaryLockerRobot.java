@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class PrimaryLockerRobot {
-    private List<Locker> lockers;
+    private final List<Locker> lockers;
 
     public PrimaryLockerRobot(List<Locker> lockers) {
         this.lockers = lockers;

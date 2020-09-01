@@ -2,7 +2,6 @@ package com.tw.locker;
 
 import com.tw.locker.exceptions.FakeTicketException;
 import com.tw.locker.exceptions.NoStorageException;
-import com.tw.locker.exceptions.UnrecognizedTicketException;
 import com.tw.locker.exceptions.UsedTicketException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
