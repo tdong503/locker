@@ -27,6 +27,17 @@ public class SmartLockerRobotTests {
     }
 
     @Test
+    void should_save_bag_in_second_locker_and_return_a_ticket_when_save_bag_given_second_locker_capacity_is_larger_than_first_locker() {
+        InitManagedLockers(1, 2);
+        Integer bagId = 1;
+        Ticket actual = smartLockerRobot.saveBag(new Bag(bagId));
+
+        assertNotNull(actual);
+        assertEquals(bagId, actual.getBagId());
+        assertEquals(testLockerId2, actual.getLockerId());
+    }
+
+    @Test
     void should_return_corresponding_bag_when_take_bag_given_a_valid_ticket_provided() {
         InitManagedLockers(2, 2);
         Integer bagId = 1;

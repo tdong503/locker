@@ -43,6 +43,10 @@ public class Locker {
         }
     }
 
+    public int getFreeStorage(){
+        return this.capacity - this.bags.size();
+    }
+
     public boolean hasStorage() {
         return this.bags.size() < capacity;
     }
