@@ -16,7 +16,7 @@ public class SmartLockerRobotTests {
 
     @Test
     void should_return_corresponding_bag_when_take_bag_given_a_valid_ticket_provided() {
-        InitManagedLockers();
+        InitManagedLockers(2, 2);
         Integer bagId = 1;
         smartLockerRobot.saveBag(new Bag(bagId));
 
@@ -29,11 +29,10 @@ public class SmartLockerRobotTests {
         assertEquals(newBagId, actual.getId());
     }
 
-    private void InitManagedLockers() {
+    private void InitManagedLockers(int firstLockerCapacity , int secondLockerCapacity) {
         LinkedList<Locker> lockers = new LinkedList<>();
-        Integer capacity = 2;
-        lockers.add(new Locker(testLockerId1, capacity));
-        lockers.add(new Locker(testLockerId2, capacity));
+        lockers.add(new Locker(testLockerId1, firstLockerCapacity));
+        lockers.add(new Locker(testLockerId2, secondLockerCapacity));
         this.smartLockerRobot = new SmartLockerRobot(lockers);
     }
 }
