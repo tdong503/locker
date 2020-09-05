@@ -13,10 +13,8 @@ public class SmartLockerRobotTests {
     private final String testLockerId1 = "Test Locker Id 1";
     private final String testLockerId2 = "Test Locker Id 2";
 
-
-
     @Test
-    void should_save_bag_in_first_locker_and_return_a_ticket_when_save_bag_given_first_locker_capacity_is_larger_than_second() {
+    void should_save_bag_in_first_locker_and_return_a_ticket_when_save_bag_given_first_locker_free_capacity_is_larger_than_second() {
         InitManagedLockers(2, 1);
         Integer bagId = 1;
         Ticket actual = smartLockerRobot.saveBag(new Bag(bagId));
@@ -27,7 +25,7 @@ public class SmartLockerRobotTests {
     }
 
     @Test
-    void should_save_bag_in_second_locker_and_return_a_ticket_when_save_bag_given_second_locker_capacity_is_larger_than_first_locker() {
+    void should_save_bag_in_second_locker_and_return_a_ticket_when_save_bag_given_second_locker_free_capacity_is_larger_than_first_locker() {
         InitManagedLockers(1, 2);
         Integer bagId = 1;
         Ticket actual = smartLockerRobot.saveBag(new Bag(bagId));
@@ -35,6 +33,17 @@ public class SmartLockerRobotTests {
         assertNotNull(actual);
         assertEquals(bagId, actual.getBagId());
         assertEquals(testLockerId2, actual.getLockerId());
+    }
+
+    @Test
+    void should_save_bag_in_first_locker_and_return_a_ticket_when_save_bag_given_two_lockers_has_same_free_capacity() {
+        InitManagedLockers(1, 1);
+        Integer bagId = 1;
+        Ticket actual = smartLockerRobot.saveBag(new Bag(bagId));
+
+        assertNotNull(actual);
+        assertEquals(bagId, actual.getBagId());
+        assertEquals(testLockerId1, actual.getLockerId());
     }
 
     @Test
