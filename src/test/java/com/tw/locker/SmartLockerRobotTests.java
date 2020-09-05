@@ -61,6 +61,19 @@ public class SmartLockerRobotTests {
     }
 
     @Test
+    void should_not_save_bag_when_save_bag_given_two_lockers_and_every_locker_has_no_capacity() {
+        InitManagedLockers(1, 1);
+        for (int bagId = 1; bagId <= 2; bagId++) {
+            smartLockerRobot.saveBag(new Bag(bagId));
+        }
+
+        Integer newBagId = 3;
+        Bag newBag = new Bag(newBagId);
+
+        assertThrows(NoStorageException.class, () -> smartLockerRobot.saveBag(newBag));
+    }
+
+    @Test
     void should_return_corresponding_bag_when_take_bag_given_a_valid_ticket_provided() {
         InitManagedLockers(2, 2);
         Integer bagId = 1;
