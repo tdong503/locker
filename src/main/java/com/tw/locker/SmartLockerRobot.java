@@ -1,36 +1,17 @@
 package com.tw.locker;
 
-import com.tw.locker.exceptions.FakeTicketException;
-import com.tw.locker.exceptions.UnrecognizedTicketException;
-
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
-public class SmartLockerRobot {
-    private final List<Locker> lockers;
+public class SmartLockerRobot extends RobotBase {
 
     public SmartLockerRobot(List<Locker> lockers) {
-        this.lockers = lockers;
+        super(lockers);
     }
 
-    public Ticket saveBag(Bag bag) {
-        Optional<Locker> availableLocker = lockers.stream().max(Comparator.comparingInt(Locker::getFreeStorage));
-        return availableLocker.get().saveBag(bag);
+    @Override
+    protected Optional<Locker> getAvailableLocker() {
+        return lockers.stream().filter(Locker::hasStorage).max(Comparator.comparingInt(Locker::getFreeStorage));
     }
-
-    public Bag takeBag(Ticket ticket) {
-        if (ticket == null) {
-            throw new UnrecognizedTicketException();
-        }
-
-        Optional<Locker> availableLocker = lockers.stream().filter(x -> x.getLockerId().equals(ticket.getLockerId())).findFirst();
-        if(availableLocker.isPresent()) {
-            return availableLocker.get().takeBag(ticket);
-        }
-
-        throw new FakeTicketException();
-    }
-
-
 }
