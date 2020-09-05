@@ -2,6 +2,7 @@ package com.tw.locker;
 
 import com.tw.locker.exceptions.FakeTicketException;
 import com.tw.locker.exceptions.NoStorageException;
+import com.tw.locker.exceptions.UnrecognizedTicketException;
 import org.junit.jupiter.api.Test;
 
 import java.util.LinkedList;
@@ -109,6 +110,13 @@ public class SmartLockerRobotTests {
         Ticket fakeTicket = new Ticket("Fake Ticket Id", bagId, "Fake Locker Id");
 
         assertThrows(FakeTicketException.class, () -> smartLockerRobot.takeBag(fakeTicket));
+    }
+
+    @Test
+    void should_not_return_bag_and_return_unrecognized_error_when_take_bag_given_an_unrecognized_ticket_provided() {
+        InitManagedLockers(1, 1);
+
+        assertThrows(UnrecognizedTicketException.class, () -> smartLockerRobot.takeBag(null));
     }
 
     private void InitManagedLockers(int firstLockerCapacity , int secondLockerCapacity) {
