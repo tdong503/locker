@@ -7,10 +7,10 @@ import com.tw.locker.exceptions.UnrecognizedTicketException;
 import java.util.List;
 import java.util.Optional;
 
-public abstract class RobotBase {
+public abstract class LockerRobotBase {
     protected final List<Locker> lockers;
 
-    public RobotBase(List<Locker> lockers) {
+    public LockerRobotBase(List<Locker> lockers) {
         this.lockers = lockers;
     }
 

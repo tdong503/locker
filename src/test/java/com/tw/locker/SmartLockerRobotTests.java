@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class SmartLockerRobotTests {
 
-    private RobotBase smartLockerRobot;
+    private LockerRobotBase smartLockerRobot;
     private final String testLockerId1 = "Test Locker Id 1";
     private final String testLockerId2 = "Test Locker Id 2";
 
