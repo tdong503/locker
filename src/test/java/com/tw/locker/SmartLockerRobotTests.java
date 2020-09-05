@@ -1,5 +1,6 @@
 package com.tw.locker;
 
+import com.tw.locker.exceptions.FakeTicketException;
 import com.tw.locker.exceptions.NoStorageException;
 import org.junit.jupiter.api.Test;
 
@@ -86,6 +87,28 @@ public class SmartLockerRobotTests {
 
         assertNotNull(actual);
         assertEquals(newBagId, actual.getId());
+    }
+
+    @Test
+    void should_not_return_bag_and_return_fake_error_when_take_bag_given_a_fake_ticket_and_valid_locker_id_provided() {
+        InitManagedLockers(1, 1);
+        Integer bagId = 1;
+        smartLockerRobot.saveBag(new Bag(bagId));
+
+        Ticket fakeTicket = new Ticket("Fake Ticket Id", bagId, testLockerId1);
+
+        assertThrows(FakeTicketException.class, () -> smartLockerRobot.takeBag(fakeTicket));
+    }
+
+    @Test
+    void should_not_return_bag_and_return_fake_error_when_take_bag_given_a_fake_ticket_provided_and_invalid_locker() {
+        InitManagedLockers(1, 1);
+        Integer bagId = 1;
+        smartLockerRobot.saveBag(new Bag(bagId));
+
+        Ticket fakeTicket = new Ticket("Fake Ticket Id", bagId, "Fake Locker Id");
+
+        assertThrows(FakeTicketException.class, () -> smartLockerRobot.takeBag(fakeTicket));
     }
 
     private void InitManagedLockers(int firstLockerCapacity , int secondLockerCapacity) {
