@@ -1,11 +1,11 @@
 package com.tw.locker;
 
+import com.tw.locker.exceptions.NoStorageException;
 import org.junit.jupiter.api.Test;
 
 import java.util.LinkedList;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class SmartLockerRobotTests {
 
@@ -44,6 +44,20 @@ public class SmartLockerRobotTests {
         assertNotNull(actual);
         assertEquals(bagId, actual.getBagId());
         assertEquals(testLockerId1, actual.getLockerId());
+    }
+
+    @Test
+    void should_save_bag_into_second_locker_and_return_a_ticket_when_save_bag_given_two_lockers_and_only_first_locker_no_capacity() {
+        InitManagedLockers(1, 1);
+        Integer bagId = 1;
+        smartLockerRobot.saveBag(new Bag(bagId));
+
+        Integer newBagId = 2;
+        Ticket actual = smartLockerRobot.saveBag(new Bag(newBagId));
+
+        assertNotNull(actual);
+        assertEquals(newBagId, actual.getBagId());
+        assertEquals(testLockerId2, actual.getLockerId());
     }
 
     @Test

@@ -43,9 +43,9 @@ Note：
 ### Tasking
 1. Given SmartLockerRobot管理多个Locker，每个Locker都有可用容量，第一个空格多，第二个空格少 When SmartLockerRobot存包 Then 成功存入第一个Locker，并且返回票据
 2. Given SmartLockerRobot管理多个Locker，每个Locker都有可用容量，第一个空格少，第二个空格多 When SmartLockerRobot存包 Then 成功存入第二个Locker，并且返回票据
-3. Given SmartLockerRobot管理多个Locker，第一个Locker存满，第二个Locker有可用容量 When SmartLockerRobot存包 Then 成功存入第二个Locker，并且返回票据
-4. Given SmartLockerRobot管理多个Locker，都没有可用容量 Then SmartLockerRobot存包 Then 存包失败，提示所有储物柜已满
-5. Given SmartLockerRobot管理多个Locker，第一个Locker和第二个Locker空格数量相同 When SmartLockerRobot存包 Then 成功存入第一个Locker，并且返回票据
+3. Given SmartLockerRobot管理多个Locker，第一个Locker和第二个Locker空格数量相同 When SmartLockerRobot存包 Then 成功存入第一个Locker，并且返回票据
+4. Given SmartLockerRobot管理多个Locker，第一个Locker存满，第二个Locker有可用容量 When SmartLockerRobot存包 Then 成功存入第二个Locker，并且返回票据
+5. Given SmartLockerRobot管理多个Locker，都没有可用容量 Then SmartLockerRobot存包 Then 存包失败，提示所有储物柜已满
 6. Given SmartLockerRobot管理多个Locker，并且拿到一张有效的票据 When SmartLockerRobot取包 Then 取包成功，并且是票据所对应的包
 7. Given SmartLockerRobot管理多个Locker，并且拿到一个伪造的票据 When SmartLockerRobot取包 Then 取包失败，提示非法票据
 8. Given SmartLockerRobot管理多个Locker，并且拿到一个无法识别的票据 When SmartLockerRobot取包 Then取包失败，提示无法识别
