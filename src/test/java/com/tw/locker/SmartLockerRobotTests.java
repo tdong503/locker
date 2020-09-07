@@ -22,8 +22,7 @@ public class SmartLockerRobotTests {
         Ticket actual = smartLockerRobot.saveBag(new Bag(bagId));
 
         assertNotNull(actual);
-        assertEquals(bagId, actual.getBagId());
-        assertEquals(testLockerId1, actual.getLockerId());
+        assertEquals(bagId, smartLockerRobot.takeBag(actual).getId());
     }
 
     @Test
@@ -33,8 +32,7 @@ public class SmartLockerRobotTests {
         Ticket actual = smartLockerRobot.saveBag(new Bag(bagId));
 
         assertNotNull(actual);
-        assertEquals(bagId, actual.getBagId());
-        assertEquals(testLockerId2, actual.getLockerId());
+        assertEquals(bagId, smartLockerRobot.takeBag(actual).getId());
     }
 
     @Test
@@ -44,8 +42,7 @@ public class SmartLockerRobotTests {
         Ticket actual = smartLockerRobot.saveBag(new Bag(bagId));
 
         assertNotNull(actual);
-        assertEquals(bagId, actual.getBagId());
-        assertEquals(testLockerId1, actual.getLockerId());
+        assertEquals(bagId, smartLockerRobot.takeBag(actual).getId());
     }
 
     @Test
@@ -58,8 +55,7 @@ public class SmartLockerRobotTests {
         Ticket actual = smartLockerRobot.saveBag(new Bag(newBagId));
 
         assertNotNull(actual);
-        assertEquals(newBagId, actual.getBagId());
-        assertEquals(testLockerId2, actual.getLockerId());
+        assertEquals(newBagId, smartLockerRobot.takeBag(actual).getId());
     }
 
     @Test

@@ -22,8 +22,7 @@ class PrimaryLockerRobotTests {
         Ticket actual = primaryLockerRobot.saveBag(new Bag(bagId));
 
         assertNotNull(actual);
-        assertEquals(bagId, actual.getBagId());
-        assertEquals(testLockerId1, actual.getLockerId());
+        assertEquals(bagId, primaryLockerRobot.takeBag(actual).getId());
     }
 
     @Test
@@ -37,8 +36,7 @@ class PrimaryLockerRobotTests {
         Ticket actual = primaryLockerRobot.saveBag(new Bag(newBagId));
 
         assertNotNull(actual);
-        assertEquals(newBagId, actual.getBagId());
-        assertEquals(testLockerId2, actual.getLockerId());
+        assertEquals(newBagId, primaryLockerRobot.takeBag(actual).getId());
     }
 
     @Test
