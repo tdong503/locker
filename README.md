@@ -49,3 +49,85 @@ Note：
 6. Given SmartLockerRobot管理多个Locker，并且拿到一张有效的票据 When SmartLockerRobot取包 Then 取包成功，并且是票据所对应的包
 7. Given SmartLockerRobot管理多个Locker，并且拿到一个伪造的票据 When SmartLockerRobot取包 Then 取包失败，提示非法票据
 8. Given SmartLockerRobot管理多个Locker，并且拿到一个无法识别的票据 When SmartLockerRobot取包 Then取包失败，提示无法识别
+
+### 需求：作为储物柜机器人的经理，我要管理多个机器人，我可以让机器人存包，也可以自己存包
+需求澄清：
+1. LockerRobotManager至少管理一个Robot或者Locker
+2. LockerRobotManager会让Robot先存包，然后再自己存包
+3. LockerRobotManager管理的Robot/Locker按顺序存包
+
+### Tasking
+1.
+Given LockerRobotManager管理两个locker且未管理robot，且两个locker均有可用空间
+When LockerRobotManager 存包
+Then 成功存入第一个locker，并返回票据
+
+2.
+Given LockerRobotManager管理两个locker且未管理robot，且第一个locker已满，第二个locker有可用空间
+When LockerRobotManager 存包
+Then 成功存入第二个locker，并返回票据
+
+3.
+Given LockerRobotManager管理两个locker且未管理robot，且两个locker均已满
+When LockerRobotManager 存包
+Then 存包失败，提示储物柜已满
+
+4.
+Given LockerRobotManager管理两个robot且未管理locker，且两个robot均有可用空间
+When LockerRobotManager 存包
+Then 成功由第一个robot存入，并返回票据
+
+5.
+Given LockerRobotManager管理两个robot且未管理locker，且第一个robot已满，第二个robot有可用空间
+When LockerRobotManager 存包
+Then 成功由第二个robot存入，并返回票据
+
+6.
+Given LockerRobotManager管理两个robot且未管理locker，且两个robot均已满
+When LockerRobotManager 存包
+Then 存包失败，提示储物柜已满
+
+7.
+Given LockerRobotManager管理一个locker和一个robot，且均有可用空间
+When LockerRobotManager 存包
+Then 应由robot存入，并返回票据
+
+8.
+Given LockerRobotManager管理一个locker和一个robot，且locker有可用空间而robot的locker空间已满
+When LockerRobotManager 存包
+Then 成功存入locker，并返回票据
+
+9.
+Given LockerRobotManager管理一个locker和一个robot，且均已满
+When LockerRobotManager 存包
+Then 存包失败，提示储物柜已满
+
+10.
+Given LockerRobotManager管理两个locker且未管理robot，且票据有效
+When LockerRobotManager 取包
+Then 取包成功
+
+11.
+Given LockerRobotManager管理两个locker且未管理robot，且票据无效
+When LockerRobotManager 取包
+Then 取包失败，提示无效票据
+
+12.
+Given LockerRobotManager管理两个robot且未管理locker，且票据有效
+When LockerRobotManager 取包
+Then 取包成功
+
+13.
+Given LockerRobotManager管理两个robot且未管理locker，且票据无效
+When LockerRobotManager 取包
+Then 取包失败，提示无效票据
+
+14.
+Given LockerRobotManager管理一个Locker和一个robot，且票据有效
+When LockerRobotManager 取包
+Then 取包成功
+
+15.
+Given LockerRobotManager管理一个Locker和一个robot，且票据无效
+When LockerRobotManager 取包
+Then 取包失败，提示无效票据
