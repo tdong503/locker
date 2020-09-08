@@ -36,9 +36,26 @@ public class LockerRobotManager {
     }
 
     public Bag takeBag(Ticket ticket) {
-        Optional<Locker> correspondingLocker = lockers.stream().filter(x -> x.getLockerId().equals(ticket.getLockerId())).findFirst();
-        if(correspondingLocker.isPresent()){
-            return correspondingLocker.get().takeBag(ticket);
+        if(this.lockers!=null){
+            Optional<Locker> correspondingLocker = this.lockers.stream().filter(x -> x.getLockerId().equals(ticket.getLockerId())).findFirst();
+            if(correspondingLocker.isPresent()){
+                return correspondingLocker.get().takeBag(ticket);
+            }
+        }
+
+        if(this.robots != null){
+            Optional<LockerRobotBase> correspondingRobot = Optional.empty();
+
+            for (LockerRobotBase robot: this.robots) {
+                Optional<Locker> matchedLocker = robot.lockers.stream().filter(l -> l.getLockerId().equals(ticket.getLockerId())).findFirst();
+                if(matchedLocker.isPresent()){
+                    correspondingRobot = Optional.of(robot);
+                }
+            }
+
+            if(correspondingRobot.isPresent()){
+                return correspondingRobot.get().takeBag(ticket);
+            }
         }
 
         throw new FakeTicketException();
