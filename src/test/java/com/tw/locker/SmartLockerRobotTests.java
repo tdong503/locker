@@ -12,8 +12,6 @@ import static org.junit.jupiter.api.Assertions.*;
 public class SmartLockerRobotTests {
 
     private LockerRobotBase smartLockerRobot = new SmartLockerRobot();
-    private final String testLockerId1 = "Test Locker Id 1";
-    private final String testLockerId2 = "Test Locker Id 2";
 
     @Test
     void should_save_bag_in_first_locker_and_return_a_ticket_when_save_bag_given_first_locker_free_capacity_is_larger_than_second() {
@@ -92,7 +90,7 @@ public class SmartLockerRobotTests {
         Integer bagId = 1;
         smartLockerRobot.saveBag(new Bag(bagId));
 
-        Ticket fakeTicket = new Ticket("Fake Ticket Id", bagId, testLockerId1);
+        Ticket fakeTicket = new Ticket("Fake Ticket Id", bagId, "Test Locker Id 1");
 
         assertThrows(FakeTicketException.class, () -> smartLockerRobot.takeBag(fakeTicket));
     }
@@ -117,7 +115,9 @@ public class SmartLockerRobotTests {
 
     private void initManagedLockers(int firstLockerCapacity , int secondLockerCapacity) {
         LinkedList<Locker> lockers = new LinkedList<>();
+        String testLockerId1 = "Test Locker Id 1";
         lockers.add(new Locker(testLockerId1, firstLockerCapacity));
+        String testLockerId2 = "Test Locker Id 2";
         lockers.add(new Locker(testLockerId2, secondLockerCapacity));
         this.smartLockerRobot.setLockers(lockers);
     }

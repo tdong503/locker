@@ -2,6 +2,7 @@ package com.tw.locker;
 
 import com.tw.locker.exceptions.FakeTicketException;
 import com.tw.locker.exceptions.NoStorageException;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.LinkedList;
@@ -10,9 +11,14 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class LockerRobotManagerTests {
 
-    private LockerRobotManager lockerRobotManager = new LockerRobotManager();
+    private LockerRobotManager lockerRobotManager;
     private final String testLockerId1 = "Test Locker Id 1";
     private final String testLockerId2 = "Test Locker Id 2";
+
+    @BeforeEach
+    void InitLockerRobotManager() {
+        lockerRobotManager = new LockerRobotManager();
+    }
 
     @Test
     void should_save_bag_in_first_locker_and_return_ticket_when_save_bag_given_manage_two_lockers_and_both_have_capacity() {
@@ -203,7 +209,7 @@ public class LockerRobotManagerTests {
 
     private void initLockerRobotManager(int robotCount, int lockerCont, int... capacities) {
         LinkedList<LockerRobotBase> robots = buildRobots(robotCount);
-        LinkedList<Locker> lockers = buildManagedLockers(capacities);
+        LinkedList<Locker> lockers = buildLockers(capacities);
         LinkedList<Locker> managedLockers = new LinkedList<>();
 
         for (int i = 1; i <= robotCount; i++) {
@@ -226,7 +232,7 @@ public class LockerRobotManagerTests {
         }
     }
 
-    private LinkedList<Locker> buildManagedLockers(int... capacities) {
+    private LinkedList<Locker> buildLockers(int... capacities) {
         LinkedList<Locker> lockers = new LinkedList<>();
 
         for (int i = 1; i <= capacities.length; i++) {

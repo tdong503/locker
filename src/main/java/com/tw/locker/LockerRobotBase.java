@@ -6,7 +6,6 @@ import com.tw.locker.exceptions.UnrecognizedTicketException;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.locks.Lock;
 
 public abstract class LockerRobotBase {
     protected List<Locker> lockers;
@@ -29,12 +28,16 @@ public abstract class LockerRobotBase {
             throw new UnrecognizedTicketException();
         }
 
-        Optional<Locker> availableLocker = lockers.stream().filter(x -> x.getLockerId().equals(ticket.getLockerId())).findFirst();
+        Optional<Locker> availableLocker = getAvailableLockerByTicket(ticket);
         if(availableLocker.isPresent()) {
             return availableLocker.get().takeBag(ticket);
         }
 
         throw new FakeTicketException();
+    }
+
+    protected Optional<Locker> getAvailableLockerByTicket(Ticket ticket) {
+        return lockers.stream().filter(x -> x.getLockerId().equals(ticket.getLockerId())).findFirst();
     }
 
     protected abstract Optional<Locker> getAvailableLocker();

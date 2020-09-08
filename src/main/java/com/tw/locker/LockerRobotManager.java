@@ -1,13 +1,10 @@
 package com.tw.locker;
 
-import com.tw.locker.exceptions.FakeTicketException;
-import com.tw.locker.exceptions.NoStorageException;
-
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
-public class LockerRobotManager {
+public class LockerRobotManager extends LockerRobotBase {
 
     private List<Locker> lockers;
     private List<LockerRobotBase> robots;
@@ -20,47 +17,38 @@ public class LockerRobotManager {
         this.robots = robots;
     }
 
-    public Ticket saveBag(Bag bag) {
+    @Override
+    protected Optional<Locker> getAvailableLockerByTicket(Ticket ticket) {
+        if(this.lockers!=null){
+            Optional<Locker> correspondingLocker = this.lockers.stream().filter(x -> x.getLockerId().equals(ticket.getLockerId())).findFirst();
+            if(correspondingLocker.isPresent()){
+                return correspondingLocker;
+            }
+        }
+
         if(this.robots != null){
-            Optional<LockerRobotBase> availableRobots = this.robots.stream().filter(r -> r.getAvailableLocker().isPresent()).findFirst();
-            if(availableRobots.isPresent()){
-                return availableRobots.get().saveBag(bag);
+            Optional<LockerRobotBase> correspondingRobot = this.robots.stream().filter(r -> r.lockers.stream().anyMatch(l -> l.getLockerId().equals(ticket.getLockerId()))).findFirst();
+            if(correspondingRobot.isPresent()) {
+                return correspondingRobot.get().getAvailableLockerByTicket(ticket);
+            }
+        }
+
+        return Optional.empty();
+    }
+
+    @Override
+    protected Optional<Locker> getAvailableLocker() {
+        if(this.robots != null){
+            Optional<Locker> availableLocker =  this.robots.stream().filter(r -> r.getAvailableLocker().isPresent()).map(r -> r.getAvailableLocker().get()).findFirst();
+            if(availableLocker.isPresent()) {
+                return availableLocker;
             }
         }
 
         if(this.lockers != null){
-            Optional<Locker> availableLocker = this.lockers.stream().filter(Locker::hasStorage).findFirst();
-            if(availableLocker.isPresent()) {
-                return availableLocker.get().saveBag(bag);
-            }
+            return this.lockers.stream().filter(Locker::hasStorage).findFirst();
         }
 
-        throw new NoStorageException();
-    }
-
-    public Bag takeBag(Ticket ticket) {
-        if(this.lockers!=null){
-            Optional<Locker> correspondingLocker = this.lockers.stream().filter(x -> x.getLockerId().equals(ticket.getLockerId())).findFirst();
-            if(correspondingLocker.isPresent()){
-                return correspondingLocker.get().takeBag(ticket);
-            }
-        }
-
-        if(this.robots != null){
-            Optional<LockerRobotBase> correspondingRobot = Optional.empty();
-
-            for (LockerRobotBase robot: this.robots) {
-                Optional<Locker> matchedLocker = robot.lockers.stream().filter(l -> l.getLockerId().equals(ticket.getLockerId())).findFirst();
-                if(matchedLocker.isPresent()){
-                    correspondingRobot = Optional.of(robot);
-                }
-            }
-
-            if(correspondingRobot.isPresent()){
-                return correspondingRobot.get().takeBag(ticket);
-            }
-        }
-
-        throw new FakeTicketException();
+        return Optional.empty();
     }
 }
