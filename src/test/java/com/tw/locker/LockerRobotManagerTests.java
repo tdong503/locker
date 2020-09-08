@@ -1,5 +1,6 @@
 package com.tw.locker;
 
+import com.tw.locker.exceptions.FakeTicketException;
 import com.tw.locker.exceptions.NoStorageException;
 import org.junit.jupiter.api.Test;
 
@@ -121,6 +122,17 @@ public class LockerRobotManagerTests {
         assertNotNull(actual);
         assertEquals(newBagId, actual.getId());
 
+    }
+
+    @Test
+    void should_not_return_bag_and_throw_no_storage_when_take_bag_given_manage_two_locker_only_and_invalid_ticket_provided() {
+        initManagedLockers(1, 1);
+        Integer bagId = 1;
+        lockerRobotManager.saveBag(new Bag(bagId));
+
+        Ticket fakeTicket = new Ticket("Fake Ticket Id", bagId, testLockerId1);
+
+        assertThrows(FakeTicketException.class, () -> lockerRobotManager.takeBag(fakeTicket));
     }
 
     private void initManagedRobotsAndLockers(int robotsCapacity, int lockersCapacity) {

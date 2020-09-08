@@ -1,5 +1,6 @@
 package com.tw.locker;
 
+import com.tw.locker.exceptions.FakeTicketException;
 import com.tw.locker.exceptions.NoStorageException;
 
 import java.util.LinkedList;
@@ -36,7 +37,10 @@ public class LockerRobotManager {
 
     public Bag takeBag(Ticket ticket) {
         Optional<Locker> correspondingLocker = lockers.stream().filter(x -> x.getLockerId().equals(ticket.getLockerId())).findFirst();
+        if(correspondingLocker.isPresent()){
+            return correspondingLocker.get().takeBag(ticket);
+        }
 
-        return correspondingLocker.get().takeBag(ticket);
+        throw new FakeTicketException();
     }
 }
