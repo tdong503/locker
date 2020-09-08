@@ -67,6 +67,14 @@ public class LockerRobotManagerTests {
         assertEquals(testLockerId2, actual.getLockerId());
     }
 
+    @Test
+    void should_not_save_bag_when_save_bag_given_manage_two_robots_and_both_have_no_capacity() {
+        initManagedRobots(0,0);
+        Integer bagId = 1;
+
+        assertThrows(NoStorageException.class, () -> lockerRobotManager.saveBag(new Bag(bagId)));
+    }
+
     private void initManagedRobots(int firstRobotCapacity, int secondRobotCapacity) {
         LinkedList<LockerRobotBase> robots = new LinkedList<>();
 
