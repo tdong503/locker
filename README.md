@@ -105,7 +105,7 @@ Then 存包失败，提示储物柜已满
 10.
 Given LockerRobotManager管理两个locker且未管理robot，且票据有效
 When LockerRobotManager 取包
-Then 取包成功
+Then 取包成功，并返回对应的包
 
 11.
 Given LockerRobotManager管理两个locker且未管理robot，且票据无效
@@ -115,7 +115,7 @@ Then 取包失败，提示无效票据
 12.
 Given LockerRobotManager管理两个robot且未管理locker，且票据有效
 When LockerRobotManager 取包
-Then 取包成功
+Then 取包成功，并返回对应的包
 
 13.
 Given LockerRobotManager管理两个robot且未管理locker，且票据无效
@@ -125,7 +125,7 @@ Then 取包失败，提示无效票据
 14.
 Given LockerRobotManager管理一个Locker和一个robot，且票据有效
 When LockerRobotManager 取包
-Then 取包成功
+Then 取包成功，并返回对应的包
 
 15.
 Given LockerRobotManager管理一个Locker和一个robot，且票据无效
