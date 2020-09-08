@@ -33,4 +33,10 @@ public class LockerRobotManager {
 
         throw new NoStorageException();
     }
+
+    public Bag takeBag(Ticket ticket) {
+        Optional<Locker> correspondingLocker = lockers.stream().filter(x -> x.getLockerId().equals(ticket.getLockerId())).findFirst();
+
+        return correspondingLocker.get().takeBag(ticket);
+    }
 }
