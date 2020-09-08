@@ -176,6 +176,17 @@ public class LockerRobotManagerTests {
         assertEquals(newBagId, actual.getId());
     }
 
+    @Test
+    void should_not_return_bag_and_throw_no_storage_when_take_bag_given_manage_one_robot__one_locker_and_invalid_ticket_provided() {
+        initManagedRobotsAndLockers(1, 1);
+        Integer bagId = 1;
+        lockerRobotManager.saveBag(new Bag(bagId));
+
+        Ticket fakeTicket = new Ticket("Fake Ticket Id", bagId, testLockerId1);
+
+        assertThrows(FakeTicketException.class, () -> lockerRobotManager.takeBag(fakeTicket));
+    }
+
     private void initManagedRobotsAndLockers(int robotsCapacity, int lockersCapacity) {
         LinkedList<LockerRobotBase> robots = new LinkedList<>();
         LinkedList<Locker> lockers1 = new LinkedList<>();
