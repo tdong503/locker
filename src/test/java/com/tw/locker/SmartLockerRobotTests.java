@@ -17,7 +17,7 @@ public class SmartLockerRobotTests {
 
     @Test
     void should_save_bag_in_first_locker_and_return_a_ticket_when_save_bag_given_first_locker_free_capacity_is_larger_than_second() {
-        InitManagedLockers(2, 1);
+        initManagedLockers(2, 1);
         Integer bagId = 1;
         Ticket actual = smartLockerRobot.saveBag(new Bag(bagId));
 
@@ -27,7 +27,7 @@ public class SmartLockerRobotTests {
 
     @Test
     void should_save_bag_in_second_locker_and_return_a_ticket_when_save_bag_given_second_locker_free_capacity_is_larger_than_first_locker() {
-        InitManagedLockers(1, 2);
+        initManagedLockers(1, 2);
         Integer bagId = 1;
         Ticket actual = smartLockerRobot.saveBag(new Bag(bagId));
 
@@ -37,7 +37,7 @@ public class SmartLockerRobotTests {
 
     @Test
     void should_save_bag_in_first_locker_and_return_a_ticket_when_save_bag_given_two_lockers_has_same_free_capacity() {
-        InitManagedLockers(1, 1);
+        initManagedLockers(1, 1);
         Integer bagId = 1;
         Ticket actual = smartLockerRobot.saveBag(new Bag(bagId));
 
@@ -47,7 +47,7 @@ public class SmartLockerRobotTests {
 
     @Test
     void should_save_bag_into_second_locker_and_return_a_ticket_when_save_bag_given_two_lockers_and_only_first_locker_no_capacity() {
-        InitManagedLockers(1, 1);
+        initManagedLockers(1, 1);
         Integer bagId = 1;
         smartLockerRobot.saveBag(new Bag(bagId));
 
@@ -60,7 +60,7 @@ public class SmartLockerRobotTests {
 
     @Test
     void should_not_save_bag_when_save_bag_given_two_lockers_and_every_locker_has_no_capacity() {
-        InitManagedLockers(1, 1);
+        initManagedLockers(1, 1);
         for (int bagId = 1; bagId <= 2; bagId++) {
             smartLockerRobot.saveBag(new Bag(bagId));
         }
@@ -73,7 +73,7 @@ public class SmartLockerRobotTests {
 
     @Test
     void should_return_corresponding_bag_when_take_bag_given_a_valid_ticket_provided() {
-        InitManagedLockers(2, 2);
+        initManagedLockers(2, 2);
         Integer bagId = 1;
         smartLockerRobot.saveBag(new Bag(bagId));
 
@@ -88,7 +88,7 @@ public class SmartLockerRobotTests {
 
     @Test
     void should_not_return_bag_and_return_fake_error_when_take_bag_given_a_fake_ticket_and_valid_locker_id_provided() {
-        InitManagedLockers(1, 1);
+        initManagedLockers(1, 1);
         Integer bagId = 1;
         smartLockerRobot.saveBag(new Bag(bagId));
 
@@ -99,7 +99,7 @@ public class SmartLockerRobotTests {
 
     @Test
     void should_not_return_bag_and_return_fake_error_when_take_bag_given_a_fake_ticket_provided_and_invalid_locker() {
-        InitManagedLockers(1, 1);
+        initManagedLockers(1, 1);
         Integer bagId = 1;
         smartLockerRobot.saveBag(new Bag(bagId));
 
@@ -110,12 +110,12 @@ public class SmartLockerRobotTests {
 
     @Test
     void should_not_return_bag_and_return_unrecognized_error_when_take_bag_given_an_unrecognized_ticket_provided() {
-        InitManagedLockers(1, 1);
+        initManagedLockers(1, 1);
 
         assertThrows(UnrecognizedTicketException.class, () -> smartLockerRobot.takeBag(null));
     }
 
-    private void InitManagedLockers(int firstLockerCapacity , int secondLockerCapacity) {
+    private void initManagedLockers(int firstLockerCapacity , int secondLockerCapacity) {
         LinkedList<Locker> lockers = new LinkedList<>();
         lockers.add(new Locker(testLockerId1, firstLockerCapacity));
         lockers.add(new Locker(testLockerId2, secondLockerCapacity));

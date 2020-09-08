@@ -17,7 +17,7 @@ class LockerTests {
 
     @Test
     void should_save_bag_and_return_a_ticket_when_save_bag_given_locker_has_storage() {
-        InitLocker();
+        initLocker();
         Integer bagId = 1;
         Bag bag = new Bag(bagId);
 
@@ -30,7 +30,7 @@ class LockerTests {
 
     @Test
     void should_not_save_bag_and_return_error_message_when_save_bag_given_locker_has_no_storage() {
-        InitLocker();
+        initLocker();
         Integer bagId = 1;
         Bag bag = new Bag(bagId);
         locker.saveBag(bag);
@@ -43,7 +43,7 @@ class LockerTests {
 
     @Test
     void should_return_corresponding_bag_when_take_bag_given_a_valid_ticket_provided() {
-        InitLocker();
+        initLocker();
         Integer bagId = 1;
         Bag bag = new Bag(bagId);
         Ticket ticket = locker.saveBag(bag);
@@ -56,7 +56,7 @@ class LockerTests {
 
     @Test
     void should_not_return_bag_and_return_invalid_error_when_take_bag_given_a_fake_ticket_provided() {
-        InitLocker();
+        initLocker();
         Integer bagId = 1;
         Bag bag = new Bag(bagId);
         locker.saveBag(bag);
@@ -68,7 +68,7 @@ class LockerTests {
 
     @Test
     void should_not_return_bag_and_return_used_error_when_take_bag_given_a_used_ticker_provided() {
-        InitLocker();
+        initLocker();
         Integer bagId = 1;
         Bag bag = new Bag(bagId);
         Ticket ticket = locker.saveBag(bag);
@@ -78,7 +78,7 @@ class LockerTests {
         assertThrows(UsedTicketException.class, () -> locker.takeBag(ticket));
     }
 
-    private void InitLocker() {
+    private void initLocker() {
         Integer capacity = 1;
         this.locker = new Locker("Test Locker Id", capacity);
     }

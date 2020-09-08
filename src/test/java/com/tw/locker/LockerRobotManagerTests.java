@@ -15,7 +15,7 @@ public class LockerRobotManagerTests {
 
     @Test
     void should_save_bag_in_first_locker_and_return_ticket_when_save_bag_given_manage_two_locker_and_both_have_capacity() {
-        InitManagedLockers(2,2);
+        initManagedLockers(2,2);
         Integer bagId = 1;
         Ticket actual = lockerRobotManager.saveBag(new Bag(bagId));
 
@@ -26,7 +26,7 @@ public class LockerRobotManagerTests {
 
     @Test
     void should_save_bag_in_first_locker_and_return_ticket_when_save_bag_given_manage_two_locker_and_second_has_capacity_but_first_dose_not() {
-        InitManagedLockers(0,1);
+        initManagedLockers(0,1);
         Integer bagId = 1;
         Ticket actual = lockerRobotManager.saveBag(new Bag(bagId));
 
@@ -37,7 +37,7 @@ public class LockerRobotManagerTests {
 
     @Test
     void should_not_save_bag_when_save_bag_given_manage_two_locker_and_both_are_full() {
-        InitManagedLockers(0,0);
+        initManagedLockers(0,0);
         Integer bagId = 1;
 
         assertThrows(NoStorageException.class, () -> lockerRobotManager.saveBag(new Bag(bagId)));
@@ -89,7 +89,7 @@ public class LockerRobotManagerTests {
         this.lockerRobotManager = new LockerRobotManager(null, robots);
     }
 
-    private void InitManagedLockers(int firstLockerCapacity , int secondLockerCapacity) {
+    private void initManagedLockers(int firstLockerCapacity , int secondLockerCapacity) {
         LinkedList<Locker> lockers = new LinkedList<>();
         lockers.add(new Locker(testLockerId1, firstLockerCapacity));
         lockers.add(new Locker(testLockerId2, secondLockerCapacity));
