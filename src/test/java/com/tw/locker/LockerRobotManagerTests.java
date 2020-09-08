@@ -1,5 +1,6 @@
 package com.tw.locker;
 
+import com.tw.locker.exceptions.NoStorageException;
 import org.junit.jupiter.api.Test;
 
 import java.util.LinkedList;
@@ -33,6 +34,15 @@ public class LockerRobotManagerTests {
         assertEquals(bagId, actual.getBagId());
         assertEquals(testLockerId2, actual.getLockerId());
     }
+
+    @Test
+    void should_not_save_bag_when_save_bag_given_manage_two_locker_and_both_are_full() {
+        InitManagedLockers(0,0);
+        Integer bagId = 1;
+
+        assertThrows(NoStorageException.class, () -> lockerRobotManager.saveBag(new Bag(bagId)));
+    }
+
 
     private void InitManagedLockers(int firstLockerCapacity , int secondLockerCapacity) {
         LinkedList<Locker> lockers = new LinkedList<>();

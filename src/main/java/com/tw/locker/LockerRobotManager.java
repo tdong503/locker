@@ -1,5 +1,7 @@
 package com.tw.locker;
 
+import com.tw.locker.exceptions.NoStorageException;
+
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -14,6 +16,10 @@ public class LockerRobotManager {
 
     public Ticket saveBag(Bag bag) {
         Optional<Locker> availableLocker = lockers.stream().filter(Locker::hasStorage).findFirst();
-        return availableLocker.get().saveBag(bag);
+        if(availableLocker.isPresent()) {
+            return availableLocker.get().saveBag(bag);
+        }
+
+        throw new NoStorageException();
     }
 }
