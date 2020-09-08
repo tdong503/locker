@@ -11,9 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PrimaryLockerRobotTests {
 
-    private LockerRobotBase primaryLockerRobot;
-    private final String testLockerId1 = "Test Locker Id 1";
-    private final String testLockerId2 = "Test Locker Id 2";
+    private LockerRobotBase primaryLockerRobot = new PrimaryLockerRobot();
 
     @Test
     void should_save_bag_in_first_locker_and_return_a_ticket_when_save_bag_given_two_lockers_and_every_locker_has_capacity() {
@@ -76,7 +74,7 @@ class PrimaryLockerRobotTests {
         Integer newBagId = 2;
         primaryLockerRobot.saveBag(new Bag(newBagId));
 
-        Ticket fakeTicket = new Ticket("Fake Ticket Id", bagId, testLockerId1);
+        Ticket fakeTicket = new Ticket("Fake Ticket Id", bagId, "Test Locker Id 1");
 
         assertThrows(FakeTicketException.class, () -> primaryLockerRobot.takeBag(fakeTicket));
     }
@@ -105,8 +103,10 @@ class PrimaryLockerRobotTests {
     private void initManagedLockers() {
         LinkedList<Locker> lockers = new LinkedList<>();
         Integer capacity = 2;
+        String testLockerId1 = "Test Locker Id 1";
         lockers.add(new Locker(testLockerId1, capacity));
+        String testLockerId2 = "Test Locker Id 2";
         lockers.add(new Locker(testLockerId2, capacity));
-        this.primaryLockerRobot = new PrimaryLockerRobot(lockers);
+        this.primaryLockerRobot.setLockers(lockers);
     }
 }

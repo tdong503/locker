@@ -6,11 +6,12 @@ import com.tw.locker.exceptions.UnrecognizedTicketException;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.locks.Lock;
 
 public abstract class LockerRobotBase {
-    protected final List<Locker> lockers;
+    protected List<Locker> lockers;
 
-    public LockerRobotBase(List<Locker> lockers) {
+    public void setLockers(List<Locker> lockers) {
         this.lockers = lockers;
     }
 

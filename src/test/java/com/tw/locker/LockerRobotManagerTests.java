@@ -191,7 +191,9 @@ public class LockerRobotManagerTests {
         LinkedList<LockerRobotBase> robots = new LinkedList<>();
         LinkedList<Locker> lockers1 = new LinkedList<>();
         lockers1.add(new Locker(testLockerId1, robotsCapacity));
-        robots.add(new PrimaryLockerRobot(lockers1));
+        LockerRobotBase robot = new PrimaryLockerRobot();
+        robot.setLockers(lockers1);
+        robots.add(robot);
 
         LinkedList<Locker> lockers = new LinkedList<>();
         lockers.add(new Locker(testLockerId2, lockersCapacity));
@@ -200,23 +202,38 @@ public class LockerRobotManagerTests {
     }
 
     private void initManagedRobots(int firstRobotCapacity, int secondRobotCapacity) {
-        LinkedList<LockerRobotBase> robots = new LinkedList<>();
-
-        LinkedList<Locker> lockers1 = new LinkedList<>();
-        lockers1.add(new Locker(testLockerId1, firstRobotCapacity));
-        robots.add(new PrimaryLockerRobot(lockers1));
-
-        LinkedList<Locker> lockers2 = new LinkedList<>();
-        lockers2.add(new Locker(testLockerId2, secondRobotCapacity));
-        robots.add(new SmartLockerRobot(lockers2));
-
+        LinkedList<LockerRobotBase> robots = buildManagedRobots(firstRobotCapacity, secondRobotCapacity);
         this.lockerRobotManager = new LockerRobotManager(null, robots);
     }
 
     private void initManagedLockers(int firstLockerCapacity , int secondLockerCapacity) {
-        LinkedList<Locker> lockers = new LinkedList<>();
-        lockers.add(new Locker(testLockerId1, firstLockerCapacity));
-        lockers.add(new Locker(testLockerId2, secondLockerCapacity));
+        LinkedList<Locker> lockers = buildManagedLockers(firstLockerCapacity, secondLockerCapacity);
         this.lockerRobotManager = new LockerRobotManager(lockers, null);
+    }
+
+    private LinkedList<LockerRobotBase> buildManagedRobots(int... capacities) {
+        LinkedList<LockerRobotBase> robots = new LinkedList<>();
+        LinkedList<Locker> lockers = buildManagedLockers(capacities);
+
+        for (int i = 1; i <= capacities.length; i++) {
+            LinkedList<Locker> lockersTemp = new LinkedList<>();
+            lockersTemp.add(lockers.get(i - 1));
+
+
+            LockerRobotBase robotBase = i % 2 == 1 ? new PrimaryLockerRobot() : new SmartLockerRobot();
+            robotBase.setLockers(lockersTemp);
+            robots.add(robotBase);
+        }
+
+        return robots;
+    }
+
+    private LinkedList<Locker> buildManagedLockers(int... capacities) {
+        LinkedList<Locker> lockers = new LinkedList<>();
+
+        for (int i = 1; i <= capacities.length; i++) {
+            lockers.add(new Locker("Test Locker Id " + i, capacities[i - 1]));
+        }
+        return lockers;
     }
 }

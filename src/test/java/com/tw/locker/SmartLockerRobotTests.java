@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class SmartLockerRobotTests {
 
-    private LockerRobotBase smartLockerRobot;
+    private LockerRobotBase smartLockerRobot = new SmartLockerRobot();
     private final String testLockerId1 = "Test Locker Id 1";
     private final String testLockerId2 = "Test Locker Id 2";
 
@@ -119,6 +119,6 @@ public class SmartLockerRobotTests {
         LinkedList<Locker> lockers = new LinkedList<>();
         lockers.add(new Locker(testLockerId1, firstLockerCapacity));
         lockers.add(new Locker(testLockerId2, secondLockerCapacity));
-        this.smartLockerRobot = new SmartLockerRobot(lockers);
+        this.smartLockerRobot.setLockers(lockers);
     }
 }
