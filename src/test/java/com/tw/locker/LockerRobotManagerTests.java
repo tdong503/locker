@@ -77,15 +77,7 @@ public class LockerRobotManagerTests {
 
     @Test
     void should_saved_by_robot_when_save_bag_given_manage_one_robot_one_locker_and_both_have_capacity() {
-        LinkedList<LockerRobotBase> robots = new LinkedList<>();
-        LinkedList<Locker> lockers1 = new LinkedList<>();
-        lockers1.add(new Locker(testLockerId1, 1));
-        robots.add(new PrimaryLockerRobot(lockers1));
-
-        LinkedList<Locker> lockers = new LinkedList<>();
-        lockers.add(new Locker(testLockerId2, 1));
-
-        this.lockerRobotManager = new LockerRobotManager(lockers, robots);
+        initManagedRobotsAndLockers(1, 1);
 
         Integer bagId = 1;
         Ticket actual = lockerRobotManager.saveBag(new Bag(bagId));
@@ -97,15 +89,7 @@ public class LockerRobotManagerTests {
 
     @Test
     void should_save_in_locker_when_save_bag_given_manage_one_robot_one_locker_and_only_locker_have_capacity() {
-        LinkedList<LockerRobotBase> robots = new LinkedList<>();
-        LinkedList<Locker> lockers1 = new LinkedList<>();
-        lockers1.add(new Locker(testLockerId1, 0));
-        robots.add(new PrimaryLockerRobot(lockers1));
-
-        LinkedList<Locker> lockers = new LinkedList<>();
-        lockers.add(new Locker(testLockerId2, 1));
-
-        this.lockerRobotManager = new LockerRobotManager(lockers, robots);
+        initManagedRobotsAndLockers(0, 1);
 
         Integer bagId = 1;
         Ticket actual = lockerRobotManager.saveBag(new Bag(bagId));
@@ -113,6 +97,18 @@ public class LockerRobotManagerTests {
         assertNotNull(actual);
         assertEquals(bagId, actual.getBagId());
         assertEquals(testLockerId2, actual.getLockerId());
+    }
+
+    private void initManagedRobotsAndLockers(int robotsCapacity, int lockersCapacity) {
+        LinkedList<LockerRobotBase> robots = new LinkedList<>();
+        LinkedList<Locker> lockers1 = new LinkedList<>();
+        lockers1.add(new Locker(testLockerId1, robotsCapacity));
+        robots.add(new PrimaryLockerRobot(lockers1));
+
+        LinkedList<Locker> lockers = new LinkedList<>();
+        lockers.add(new Locker(testLockerId2, lockersCapacity));
+
+        this.lockerRobotManager = new LockerRobotManager(lockers, robots);
     }
 
     private void initManagedRobots(int firstRobotCapacity, int secondRobotCapacity) {
