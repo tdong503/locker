@@ -17,17 +17,17 @@ public class LockerRobotManager {
     }
 
     public Ticket saveBag(Bag bag) {
-        if(this.lockers != null){
-            Optional<Locker> availableLocker = this.lockers.stream().filter(Locker::hasStorage).findFirst();
-            if(availableLocker.isPresent()) {
-                return availableLocker.get().saveBag(bag);
-            }
-        }
-
         if(this.robots != null){
             Optional<LockerRobotBase> availableRobots = this.robots.stream().filter(r -> r.getAvailableLocker().isPresent()).findFirst();
             if(availableRobots.isPresent()){
                 return availableRobots.get().saveBag(bag);
+            }
+        }
+
+        if(this.lockers != null){
+            Optional<Locker> availableLocker = this.lockers.stream().filter(Locker::hasStorage).findFirst();
+            if(availableLocker.isPresent()) {
+                return availableLocker.get().saveBag(bag);
             }
         }
 
