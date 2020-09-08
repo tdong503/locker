@@ -9,11 +9,14 @@ import java.util.Optional;
 
 public class LockerRobotManager {
 
-    private final List<Locker> lockers;
-    private final List<LockerRobotBase> robots;
+    private List<Locker> lockers;
+    private List<LockerRobotBase> robots;
 
-    public LockerRobotManager(LinkedList<Locker> lockers, LinkedList<LockerRobotBase> robots) {
+    public void setLockers(LinkedList<Locker> lockers) {
         this.lockers = lockers;
+    }
+
+    public void setRobots(LinkedList<LockerRobotBase> robots) {
         this.robots = robots;
     }
 
