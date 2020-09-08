@@ -65,6 +65,28 @@ public class LockerRobotManagerTests {
         assertEquals(testLockerId1, actual.getLockerId());
     }
 
+    @Test
+    void should_saved_by_second_robot_when_save_bag_given_manage_two_robots_and_only_second_robot_have_capacity() {
+        LinkedList<LockerRobotBase> robots = new LinkedList<>();
+
+        LinkedList<Locker> lockers1 = new LinkedList<>();
+        lockers1.add(new Locker(testLockerId1, 0));
+        robots.add(new PrimaryLockerRobot(lockers1));
+
+        LinkedList<Locker> lockers2 = new LinkedList<>();
+        lockers2.add(new Locker(testLockerId2, 1));
+        robots.add(new SmartLockerRobot(lockers2));
+
+        this.lockerRobotManager = new LockerRobotManager(null, robots);
+
+        Integer bagId = 1;
+        Ticket actual = lockerRobotManager.saveBag(new Bag(bagId));
+
+        assertNotNull(actual);
+        assertEquals(bagId, actual.getBagId());
+        assertEquals(testLockerId2, actual.getLockerId());
+    }
+
     private void InitManagedLockers(int firstLockerCapacity , int secondLockerCapacity) {
         LinkedList<Locker> lockers = new LinkedList<>();
         lockers.add(new Locker(testLockerId1, firstLockerCapacity));
