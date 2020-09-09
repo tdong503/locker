@@ -22,10 +22,10 @@ public class LockerRobotManager {
     }
 
     public Bag takeBag(Ticket ticket) {
-        return BagOperation.takeBag(ticket, (t) -> getAvailableLockerByTicket(ticket));
+        return BagOperation.takeBag(ticket, (t) -> getCorrespondingLockerByTicket(ticket));
     }
 
-    private Optional<Locker> getAvailableLockerByTicket(Ticket ticket) {
+    private Optional<Locker> getCorrespondingLockerByTicket(Ticket ticket) {
         Optional<Locker> correspondingLocker = this.lockers.stream().filter(x -> x.getLockerId().equals(ticket.getLockerId())).findFirst();
         if (correspondingLocker.isPresent()) {
             return correspondingLocker;

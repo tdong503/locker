@@ -22,8 +22,8 @@ class LockerRobotManagerTests {
 
     @Test
     void should_save_bag_in_first_locker_and_return_ticket_when_save_bag_given_manage_two_lockers_and_both_have_capacity() {
-        InitDataResultModel initData = initManagedLockers(2, 2);
-        Locker expectedLocker = initData.lockers.getFirst();
+        InitializedResultModel initializedData = initManagedLockers(2, 2);
+        Locker expectedLocker = initializedData.lockers.getFirst();
         Integer bagId = 1;
         Bag bag = new Bag(bagId);
 
@@ -37,8 +37,8 @@ class LockerRobotManagerTests {
 
     @Test
     void should_save_bag_in_first_locker_and_return_ticket_when_save_bag_given_manage_two_lockers_and_first_no_capacity() {
-        InitDataResultModel initData = initManagedLockers(0, 1);
-        Locker expectedLocker = initData.lockers.getLast();
+        InitializedResultModel initializedData = initManagedLockers(0, 1);
+        Locker expectedLocker = initializedData.lockers.getLast();
         Integer bagId = 1;
         Bag bag = new Bag(bagId);
 
@@ -60,8 +60,8 @@ class LockerRobotManagerTests {
 
     @Test
     void should_saved_by_first_robot_when_save_bag_given_manage_two_robots_and_both_have_capacity() {
-        InitDataResultModel initData = initManagedRobots(1, 1);
-        LockerRobotBase expectedRobot = initData.robots.getFirst();
+        InitializedResultModel initializedData = initManagedRobots(1, 1);
+        LockerRobotBase expectedRobot = initializedData.robots.getFirst();
         Integer bagId = 1;
         Bag bag = new Bag(bagId);
 
@@ -75,8 +75,8 @@ class LockerRobotManagerTests {
 
     @Test
     void should_saved_by_second_robot_when_save_bag_given_manage_two_robots_and_only_second_robot_have_capacity() {
-        InitDataResultModel initData = initManagedRobots(0, 1);
-        LockerRobotBase expectedRobot = initData.robots.getLast();
+        InitializedResultModel initializedData = initManagedRobots(0, 1);
+        LockerRobotBase expectedRobot = initializedData.robots.getLast();
         Integer bagId = 1;
         Bag bag = new Bag(bagId);
 
@@ -98,8 +98,8 @@ class LockerRobotManagerTests {
 
     @Test
     void should_saved_by_robot_when_save_bag_given_manage_one_robot_one_locker_and_both_have_capacity() {
-        InitDataResultModel initData = initManagedRobotsAndLockers(1, 1);
-        LockerRobotBase expectedRobot = initData.robots.getFirst();
+        InitializedResultModel initializedData = initManagedRobotsAndLockers(1, 1);
+        LockerRobotBase expectedRobot = initializedData.robots.getFirst();
         Integer bagId = 1;
         Bag bag = new Bag(bagId);
 
@@ -113,8 +113,8 @@ class LockerRobotManagerTests {
 
     @Test
     void should_save_in_locker_when_save_bag_given_manage_one_robot_one_locker_and_only_locker_have_capacity() {
-        InitDataResultModel initData = initManagedRobotsAndLockers(0, 1);
-        Locker expectedLocker = initData.lockers.getFirst();
+        InitializedResultModel initializedData = initManagedRobotsAndLockers(0, 1);
+        Locker expectedLocker = initializedData.lockers.getFirst();
         Integer bagId = 1;
         Bag bag = new Bag(bagId);
 
@@ -212,19 +212,19 @@ class LockerRobotManagerTests {
         assertThrows(FakeTicketException.class, () -> lockerRobotManager.takeBag(fakeTicket));
     }
 
-    private InitDataResultModel initManagedRobotsAndLockers(int robotsCapacity, int lockersCapacity) {
+    private InitializedResultModel initManagedRobotsAndLockers(int robotsCapacity, int lockersCapacity) {
         return initLockerRobotManager(1, 1, robotsCapacity, lockersCapacity);
     }
 
-    private InitDataResultModel initManagedRobots(int firstRobotCapacity, int secondRobotCapacity) {
+    private InitializedResultModel initManagedRobots(int firstRobotCapacity, int secondRobotCapacity) {
         return initLockerRobotManager(2, 0, firstRobotCapacity, secondRobotCapacity);
     }
 
-    private InitDataResultModel initManagedLockers(int firstLockerCapacity, int secondLockerCapacity) {
+    private InitializedResultModel initManagedLockers(int firstLockerCapacity, int secondLockerCapacity) {
         return initLockerRobotManager(0, 2, firstLockerCapacity, secondLockerCapacity);
     }
 
-    private InitDataResultModel initLockerRobotManager(int robotCount, int lockerCont, int... capacities) {
+    private InitializedResultModel initLockerRobotManager(int robotCount, int lockerCont, int... capacities) {
         LinkedList<LockerRobotBase> robots = buildRobots(robotCount);
         LinkedList<Locker> lockers = buildLockers(capacities);
         LinkedList<Locker> managedLockers = new LinkedList<>();
@@ -248,7 +248,7 @@ class LockerRobotManagerTests {
             this.lockerRobotManager.setLockers(managedLockers);
         }
 
-        InitDataResultModel response = new InitDataResultModel();
+        InitializedResultModel response = new InitializedResultModel();
         response.robots = robots;
         response.lockers = managedLockers;
         return response;
@@ -274,7 +274,7 @@ class LockerRobotManagerTests {
         return robots;
     }
 
-    static class InitDataResultModel
+    static class InitializedResultModel
     {
         private LinkedList<Locker> lockers;
         private LinkedList<LockerRobotBase> robots;
