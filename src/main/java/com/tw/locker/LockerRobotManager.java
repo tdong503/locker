@@ -1,26 +1,20 @@
 package com.tw.locker;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
 public class LockerRobotManager extends LockerRobotBase {
 
-    private List<Locker> lockers;
     private List<LockerRobotBase> robots;
 
-    public void setLockers(LinkedList<Locker> lockers) {
-        this.lockers = lockers;
-    }
-
-    public void setRobots(LinkedList<LockerRobotBase> robots) {
+    public void setRobots(List<LockerRobotBase> robots) {
         this.robots = robots;
     }
 
     @Override
     protected Optional<Locker> getAvailableLockerByTicket(Ticket ticket) {
         if(this.lockers!=null){
-            Optional<Locker> correspondingLocker = this.lockers.stream().filter(x -> x.getLockerId().equals(ticket.getLockerId())).findFirst();
+            Optional<Locker> correspondingLocker = super.getAvailableLockerByTicket(ticket);
             if(correspondingLocker.isPresent()){
                 return correspondingLocker;
             }
