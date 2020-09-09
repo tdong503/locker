@@ -61,7 +61,7 @@ class LockerRobotManagerTests {
     @Test
     void should_saved_by_first_robot_when_save_bag_given_manage_two_robots_and_both_have_capacity() {
         InitDataResultModel initData = initManagedRobots(1, 1);
-        Locker expectedLocker = initData.robots.getFirst().lockers.get(0);
+        LockerRobotBase expectedRobot = initData.robots.getFirst();
         Integer bagId = 1;
         Bag bag = new Bag(bagId);
 
@@ -70,13 +70,13 @@ class LockerRobotManagerTests {
         assertNotNull(actual);
         assertEquals(bagId, actual.getBagId());
         assertEquals(testLockerId1, actual.getLockerId());
-        assertEquals(bag, expectedLocker.takeBag(actual));
+        assertEquals(bag, expectedRobot.takeBag(actual));
     }
 
     @Test
     void should_saved_by_second_robot_when_save_bag_given_manage_two_robots_and_only_second_robot_have_capacity() {
         InitDataResultModel initData = initManagedRobots(0, 1);
-        Locker expectedLocker = initData.robots.getLast().lockers.get(0);
+        LockerRobotBase expectedRobot = initData.robots.getLast();
         Integer bagId = 1;
         Bag bag = new Bag(bagId);
 
@@ -85,7 +85,7 @@ class LockerRobotManagerTests {
         assertNotNull(actual);
         assertEquals(bagId, actual.getBagId());
         assertEquals(testLockerId2, actual.getLockerId());
-        assertEquals(bag, expectedLocker.takeBag(actual));
+        assertEquals(bag, expectedRobot.takeBag(actual));
     }
 
     @Test
@@ -99,7 +99,7 @@ class LockerRobotManagerTests {
     @Test
     void should_saved_by_robot_when_save_bag_given_manage_one_robot_one_locker_and_both_have_capacity() {
         InitDataResultModel initData = initManagedRobotsAndLockers(1, 1);
-        Locker expectedLocker = initData.robots.getFirst().lockers.get(0);
+        LockerRobotBase expectedRobot = initData.robots.getFirst();
         Integer bagId = 1;
         Bag bag = new Bag(bagId);
 
@@ -108,7 +108,7 @@ class LockerRobotManagerTests {
         assertNotNull(actual);
         assertEquals(bagId, actual.getBagId());
         assertEquals(testLockerId1, actual.getLockerId());
-        assertEquals(bag, expectedLocker.takeBag(actual));
+        assertEquals(bag, expectedRobot.takeBag(actual));
     }
 
     @Test
