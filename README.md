@@ -131,3 +131,44 @@ Then 取包成功，并返回对应的包
 Given LockerRobotManager管理一个Locker和一个robot，且票据无效
 When LockerRobotManager 取包
 Then 取包失败，提示无效票据
+
+###需求：作为储物柜机器人主管(Locker Robot Director)，我希望看到一张报表，能够反映出我管理的储物柜的存取包情况
+需求澄清：
+1. 报表中不区分PrimaryLockerRobot和SmartLockerRobot，两者都是Robot
+2. 系统中一定存在LockerRobotManager
+3. 可以存在多个LockerRobotManager
+4. 不被Manager管理的Robot/Locker不计入报表
+
+###Tasking
+1. Given LockerRobotDirector管理一个LockerRobotManager，LockerRobotManager只管理两个Lockers，并且它们的可用容量和容量是0，8和3，5  
+   When LockerRobotDirector统计报表  
+   Then 报表内容为  
+   M 3 13  
+   &nbsp;&nbsp;&nbsp;&nbsp;L 0 8  
+   &nbsp;&nbsp;&nbsp;&nbsp;L 3 5
+2. Given LockerRobotDirector管理一个LockerRobotManager，LockerRobotManager只管理一个Locker且可用容量和容量为2，5，管理一个PrimaryLockerRobot并且可用容量和容量是1，5  
+   When LockerRobotDirector统计报表  
+   Then 报表内容为  
+   M 3 10  
+   &nbsp;&nbsp;&nbsp;&nbsp;L 2 5  
+   &nbsp;&nbsp;&nbsp;&nbsp;R 1 5
+3. Given LockerRobotDirector管理一个LockerRobotManager，LockerRobotManager只管理一个Locker且可用容量和容量为2，5，管理一个PrimaryLockerRobot，且管理两个Lockers，并且可用容量和容量是1，5和2，8  
+   When LockerRobotDirector统计报表  
+   Then 报表内容为  
+   M 5 18  
+   &nbsp;&nbsp;&nbsp;&nbsp;L 2 5  
+   &nbsp;&nbsp;&nbsp;&nbsp;R 3 13  
+   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;L 1 5  
+   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;L 2 8
+4. Given LockerRobotDirector管理一个LockerRobotManager，LockerRobotManager只管理两个Robots，并且它们的可用容量和容量是3，9和2，4  
+   When LockerRobotDirector统计报表  
+   Then 报表内容为  
+   M 5 13  
+   &nbsp;&nbsp;&nbsp;&nbsp;R 3 9  
+   &nbsp;&nbsp;&nbsp;&nbsp;R 2 4
+5. Given LockerRobotDirector管理一个LockerRobotManager，LockerRobotManager只管理两个Lockers，并且他们的可用容量和容量分别是0，8和3，5。存在一个没有被LockerRobotManager管理的Locker和PrimaryLockerRobot且它的可用容量是2，6；3，8
+   When LockerRobotDirector统计报表  
+   Then 报表内容为  
+   M 3 13  
+   &nbsp;&nbsp;&nbsp;&nbsp;L 0 8  
+   &nbsp;&nbsp;&nbsp;&nbsp;L 3 5
