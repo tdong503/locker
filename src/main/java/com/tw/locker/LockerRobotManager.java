@@ -1,21 +1,19 @@
 package com.tw.locker;
 
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Getter
+@Setter
 public class LockerRobotManager {
 
     private List<Locker> lockers = new ArrayList<>();
     private List<LockerRobotBase> robots = new ArrayList<>();
-
-    public void setRobots(List<LockerRobotBase> robots) {
-        this.robots = robots;
-    }
-
-    public void setLockers(List<Locker> lockers) {
-        this.lockers = lockers;
-    }
 
     public Ticket saveBag(Bag bag) {
         return BagOperation.saveBag(bag, this::getAvailableLocker);

@@ -43,12 +43,16 @@ public class Locker {
         }
     }
 
-    public int getFreeStorage(){
+    public int getFreeStorage() {
         return this.capacity - this.bags.size();
     }
 
+    public int getCapacity() {
+        return this.capacity;
+    }
+
     public boolean hasStorage() {
-        return this.bags.size() < capacity;
+        return this.capacity - this.bags.size() > 0;
     }
 
     public String getLockerId() {
