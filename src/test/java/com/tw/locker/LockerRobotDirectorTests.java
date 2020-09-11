@@ -78,7 +78,7 @@ class LockerRobotDirectorTests {
     }
 
     @Test
-    void should_return_expected_result_when_generate_report_given_a_locker_robot_manager_only_with_two_lockers_and_a_robot_without_manager() throws IOException {
+    void should_return_expected_result_when_generate_report_given_a_locker_robot_manager_only_with_two_lockers_and_a_locker_and_a_robot_without_manager() throws IOException {
         List<FreeCapacityAndInitCapacityModel> freeCapacityAndInitCapacityListForLockers = new ArrayList<>();
         freeCapacityAndInitCapacityListForLockers.add(new FreeCapacityAndInitCapacityModel(0, 8));
         freeCapacityAndInitCapacityListForLockers.add(new FreeCapacityAndInitCapacityModel(3, 5));
