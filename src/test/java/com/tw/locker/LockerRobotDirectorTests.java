@@ -62,6 +62,21 @@ class LockerRobotDirectorTests {
         assertEquals(expected, actual);
     }
 
+    @Test
+    void should_return_expected_result_when_generate_report_given_a_locker_robot_manager_with_two_robots() throws IOException {
+        List<FreeCapacityAndInitCapacityModel> freeCapacityAndInitCapacityListForLockers = new ArrayList<>();
+        freeCapacityAndInitCapacityListForLockers.add(new FreeCapacityAndInitCapacityModel(3, 9));
+        freeCapacityAndInitCapacityListForLockers.add(new FreeCapacityAndInitCapacityModel(2, 4));
+        buildRobots(freeCapacityAndInitCapacityListForLockers);
+
+        buildLockerRobotDirector();
+        String expected = fileOperator.fileReadToText("a_locker_robot_manager_with_two_robots.txt");
+
+        String actual = lockerRobotDirector.generateReport();
+
+        assertEquals(expected, actual);
+    }
+
     private void buildLockerRobotDirector() {
         this.lockerRobotDirector = new LockerRobotDirector(Collections.singletonList(this.lockerRobotManager));
     }
@@ -99,6 +114,19 @@ class LockerRobotDirectorTests {
         robot.setLockers(lockers);
 
         this.lockerRobotManager.setRobots(Collections.singletonList(robot));
+    }
+
+    private void buildRobots(List<FreeCapacityAndInitCapacityModel> freeCapacityAndInitCapacityList) {
+        LinkedList<LockerRobotBase> robots = new LinkedList<>();
+
+        for (FreeCapacityAndInitCapacityModel freeCapacityAndInitCapacity : freeCapacityAndInitCapacityList) {
+            Locker locker = buildLocker(freeCapacityAndInitCapacity.freeCapacity, freeCapacityAndInitCapacity.initCapacity);
+            LockerRobotBase robot = new PrimaryLockerRobot();
+            robot.setLockers(Collections.singletonList(locker));
+            robots.add(robot);
+        }
+
+        this.lockerRobotManager.setRobots(robots);
     }
 
     static class FreeCapacityAndInitCapacityModel {

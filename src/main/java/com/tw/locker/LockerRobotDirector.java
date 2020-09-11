@@ -24,11 +24,11 @@ public class LockerRobotDirector {
                 capacity += locker.getCapacity();
             }
 
-            int lockerInRobotFreeCapacity = 0;
-            int lockerInRobotCapacity = 0;
             StringBuilder robotReport = new StringBuilder();
             List<LockerRobotBase> robots = manager.getRobots();
             for (LockerRobotBase robot : robots) {
+                int lockerInRobotFreeCapacity = 0;
+                int lockerInRobotCapacity = 0;
                 List<Locker> lockers1 = robot.lockers;
                 for (Locker locker : lockers1) {
                     robotReport.append(String.format("    L %s %s\n", locker.getFreeStorage(), locker.getCapacity()));
