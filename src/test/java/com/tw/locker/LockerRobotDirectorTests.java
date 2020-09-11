@@ -4,10 +4,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.*;
 
-import static java.util.Arrays.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class LockerRobotDirectorTests {
@@ -28,7 +26,20 @@ class LockerRobotDirectorTests {
         buildLockers(freeCapacityAndInitCapacityListForLockers);
 
         buildLockerRobotDirector();
-        String expected = fileOperator.fileReadToText("result.txt");
+        String expected = fileOperator.fileReadToText("a_locker_robot_manager_only_with_two_lockers.txt");
+
+        String actual = lockerRobotDirector.generateReport();
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void should_return_expected_result_when_generate_report_given_a_locker_robot_manager_with_one_robot_and_one_locker() throws IOException {
+        buildLockers(Collections.singletonList(new FreeCapacityAndInitCapacityModel(2, 5)));
+        buildRobot(Collections.singletonList(new FreeCapacityAndInitCapacityModel(1, 5)));
+
+        buildLockerRobotDirector();
+        String expected = fileOperator.fileReadToText("a_locker_robot_manager_with_one_robot_and_one_locker.txt");
 
         String actual = lockerRobotDirector.generateReport();
 
@@ -39,16 +50,14 @@ class LockerRobotDirectorTests {
         this.lockerRobotDirector = new LockerRobotDirector(Collections.singletonList(this.lockerRobotManager));
     }
 
-    private LinkedList<Locker> buildLockers(List<FreeCapacityAndInitCapacityModel> freeCapacityAndInitCapacityList) {
+    private void buildLockers(List<FreeCapacityAndInitCapacityModel> freeCapacityAndInitCapacityList) {
         LinkedList<Locker> lockers = new LinkedList<>();
 
-        for (FreeCapacityAndInitCapacityModel freeCapacityAndInitCapacity: freeCapacityAndInitCapacityList) {
+        for (FreeCapacityAndInitCapacityModel freeCapacityAndInitCapacity : freeCapacityAndInitCapacityList) {
             lockers.add(buildLocker(freeCapacityAndInitCapacity.freeCapacity, freeCapacityAndInitCapacity.initCapacity));
         }
 
         this.lockerRobotManager.setLockers(lockers);
-
-        return lockers;
     }
 
     private Locker buildLocker(int freeCapacity, int capacity) {
@@ -63,8 +72,20 @@ class LockerRobotDirectorTests {
         return locker;
     }
 
-    static class FreeCapacityAndInitCapacityModel
-    {
+    private void buildRobot(List<FreeCapacityAndInitCapacityModel> freeCapacityAndInitCapacityList) {
+        LinkedList<Locker> lockers = new LinkedList<>();
+
+        for (FreeCapacityAndInitCapacityModel freeCapacityAndInitCapacity : freeCapacityAndInitCapacityList) {
+            lockers.add(buildLocker(freeCapacityAndInitCapacity.freeCapacity, freeCapacityAndInitCapacity.initCapacity));
+        }
+
+        LockerRobotBase robot = new PrimaryLockerRobot();
+        robot.setLockers(lockers);
+
+        this.lockerRobotManager.setRobots(Collections.singletonList(robot));
+    }
+
+    static class FreeCapacityAndInitCapacityModel {
         int freeCapacity;
         int initCapacity;
 
