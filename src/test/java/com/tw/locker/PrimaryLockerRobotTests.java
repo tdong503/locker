@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PrimaryLockerRobotTests {
 
-    private LockerRobotBase primaryLockerRobot = new PrimaryLockerRobot();
+    private final LockerRobotBase primaryLockerRobot = new PrimaryLockerRobot();
 
     @Test
     void should_save_bag_in_first_locker_and_return_a_ticket_when_save_bag_given_two_lockers_and_every_locker_has_capacity() {

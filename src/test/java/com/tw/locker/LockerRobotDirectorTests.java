@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class LockerRobotDirectorTests {
     private LockerRobotDirector lockerRobotDirector;
     private LockerRobotManager lockerRobotManager;
-    private FileOperator fileOperator = new FileOperator();
+    private final FileOperator fileOperator = new FileOperator();
 
     @BeforeEach
     void InitLockerRobotManager() {
@@ -20,9 +20,9 @@ class LockerRobotDirectorTests {
 
     @Test
     void should_return_expected_result_when_generate_report_given_a_locker_robot_manager_only_with_two_lockers() throws IOException {
-        List<FreeCapacityAndInitCapacityModel> freeCapacityAndInitCapacityListForLockers = new ArrayList<>();
-        freeCapacityAndInitCapacityListForLockers.add(new FreeCapacityAndInitCapacityModel(0, 8));
-        freeCapacityAndInitCapacityListForLockers.add(new FreeCapacityAndInitCapacityModel(3, 5));
+        List<FreeCapacityAndInitialCapacityModel> freeCapacityAndInitCapacityListForLockers = new ArrayList<>();
+        freeCapacityAndInitCapacityListForLockers.add(new FreeCapacityAndInitialCapacityModel(0, 8));
+        freeCapacityAndInitCapacityListForLockers.add(new FreeCapacityAndInitialCapacityModel(3, 5));
         buildLockers(freeCapacityAndInitCapacityListForLockers);
 
         buildLockerRobotDirector();
@@ -35,8 +35,8 @@ class LockerRobotDirectorTests {
 
     @Test
     void should_return_expected_result_when_generate_report_given_a_locker_robot_manager_with_one_robot_and_one_locker() throws IOException {
-        buildLockers(Collections.singletonList(new FreeCapacityAndInitCapacityModel(2, 5)));
-        buildRobot(Collections.singletonList(new FreeCapacityAndInitCapacityModel(1, 5)));
+        buildLockers(Collections.singletonList(new FreeCapacityAndInitialCapacityModel(2, 5)));
+        buildRobot(Collections.singletonList(new FreeCapacityAndInitialCapacityModel(1, 5)));
 
         buildLockerRobotDirector();
         String expected = fileOperator.fileReadToText("a_locker_robot_manager_with_one_robot_and_one_locker.txt");
@@ -48,10 +48,10 @@ class LockerRobotDirectorTests {
 
     @Test
     void should_return_expected_result_when_generate_report_given_a_locker_robot_manager_with_one_locker_and_one_robot_has_two_lockers() throws IOException {
-        buildLockers(Collections.singletonList(new FreeCapacityAndInitCapacityModel(2, 5)));
-        List<FreeCapacityAndInitCapacityModel> freeCapacityAndInitCapacityListForLockers = new ArrayList<>();
-        freeCapacityAndInitCapacityListForLockers.add(new FreeCapacityAndInitCapacityModel(1, 5));
-        freeCapacityAndInitCapacityListForLockers.add(new FreeCapacityAndInitCapacityModel(2, 8));
+        buildLockers(Collections.singletonList(new FreeCapacityAndInitialCapacityModel(2, 5)));
+        List<FreeCapacityAndInitialCapacityModel> freeCapacityAndInitCapacityListForLockers = new ArrayList<>();
+        freeCapacityAndInitCapacityListForLockers.add(new FreeCapacityAndInitialCapacityModel(1, 5));
+        freeCapacityAndInitCapacityListForLockers.add(new FreeCapacityAndInitialCapacityModel(2, 8));
         buildRobot(freeCapacityAndInitCapacityListForLockers);
 
         buildLockerRobotDirector();
@@ -64,9 +64,9 @@ class LockerRobotDirectorTests {
 
     @Test
     void should_return_expected_result_when_generate_report_given_a_locker_robot_manager_with_two_robots() throws IOException {
-        List<FreeCapacityAndInitCapacityModel> freeCapacityAndInitCapacityListForLockers = new ArrayList<>();
-        freeCapacityAndInitCapacityListForLockers.add(new FreeCapacityAndInitCapacityModel(3, 9));
-        freeCapacityAndInitCapacityListForLockers.add(new FreeCapacityAndInitCapacityModel(2, 4));
+        List<FreeCapacityAndInitialCapacityModel> freeCapacityAndInitCapacityListForLockers = new ArrayList<>();
+        freeCapacityAndInitCapacityListForLockers.add(new FreeCapacityAndInitialCapacityModel(3, 9));
+        freeCapacityAndInitCapacityListForLockers.add(new FreeCapacityAndInitialCapacityModel(2, 4));
         buildRobots(freeCapacityAndInitCapacityListForLockers);
 
         buildLockerRobotDirector();
@@ -79,9 +79,9 @@ class LockerRobotDirectorTests {
 
     @Test
     void should_return_expected_result_when_generate_report_given_a_locker_robot_manager_only_with_two_lockers_and_a_locker_and_a_robot_without_manager() throws IOException {
-        List<FreeCapacityAndInitCapacityModel> freeCapacityAndInitCapacityListForLockers = new ArrayList<>();
-        freeCapacityAndInitCapacityListForLockers.add(new FreeCapacityAndInitCapacityModel(0, 8));
-        freeCapacityAndInitCapacityListForLockers.add(new FreeCapacityAndInitCapacityModel(3, 5));
+        List<FreeCapacityAndInitialCapacityModel> freeCapacityAndInitCapacityListForLockers = new ArrayList<>();
+        freeCapacityAndInitCapacityListForLockers.add(new FreeCapacityAndInitialCapacityModel(0, 8));
+        freeCapacityAndInitCapacityListForLockers.add(new FreeCapacityAndInitialCapacityModel(3, 5));
         buildLockers(freeCapacityAndInitCapacityListForLockers);
 
         buildLocker(2, 6);
@@ -100,11 +100,11 @@ class LockerRobotDirectorTests {
         this.lockerRobotDirector = new LockerRobotDirector(Collections.singletonList(this.lockerRobotManager));
     }
 
-    private void buildLockers(List<FreeCapacityAndInitCapacityModel> freeCapacityAndInitCapacityList) {
+    private void buildLockers(List<FreeCapacityAndInitialCapacityModel> freeCapacityAndInitCapacityList) {
         LinkedList<Locker> lockers = new LinkedList<>();
 
-        for (FreeCapacityAndInitCapacityModel freeCapacityAndInitCapacity : freeCapacityAndInitCapacityList) {
-            lockers.add(buildLocker(freeCapacityAndInitCapacity.freeCapacity, freeCapacityAndInitCapacity.initCapacity));
+        for (FreeCapacityAndInitialCapacityModel freeCapacityAndInitCapacity : freeCapacityAndInitCapacityList) {
+            lockers.add(buildLocker(freeCapacityAndInitCapacity.freeCapacity, freeCapacityAndInitCapacity.initialCapacity));
         }
 
         this.lockerRobotManager.setLockers(lockers);
@@ -122,11 +122,11 @@ class LockerRobotDirectorTests {
         return locker;
     }
 
-    private void buildRobot(List<FreeCapacityAndInitCapacityModel> freeCapacityAndInitCapacityList) {
+    private void buildRobot(List<FreeCapacityAndInitialCapacityModel> freeCapacityAndInitCapacityList) {
         LinkedList<Locker> lockers = new LinkedList<>();
 
-        for (FreeCapacityAndInitCapacityModel freeCapacityAndInitCapacity : freeCapacityAndInitCapacityList) {
-            lockers.add(buildLocker(freeCapacityAndInitCapacity.freeCapacity, freeCapacityAndInitCapacity.initCapacity));
+        for (FreeCapacityAndInitialCapacityModel freeCapacityAndInitCapacity : freeCapacityAndInitCapacityList) {
+            lockers.add(buildLocker(freeCapacityAndInitCapacity.freeCapacity, freeCapacityAndInitCapacity.initialCapacity));
         }
 
         LockerRobotBase robot = new PrimaryLockerRobot();
@@ -135,11 +135,11 @@ class LockerRobotDirectorTests {
         this.lockerRobotManager.setRobots(Collections.singletonList(robot));
     }
 
-    private void buildRobots(List<FreeCapacityAndInitCapacityModel> freeCapacityAndInitCapacityList) {
+    private void buildRobots(List<FreeCapacityAndInitialCapacityModel> freeCapacityAndInitCapacityList) {
         LinkedList<LockerRobotBase> robots = new LinkedList<>();
 
-        for (FreeCapacityAndInitCapacityModel freeCapacityAndInitCapacity : freeCapacityAndInitCapacityList) {
-            Locker locker = buildLocker(freeCapacityAndInitCapacity.freeCapacity, freeCapacityAndInitCapacity.initCapacity);
+        for (FreeCapacityAndInitialCapacityModel freeCapacityAndInitCapacity : freeCapacityAndInitCapacityList) {
+            Locker locker = buildLocker(freeCapacityAndInitCapacity.freeCapacity, freeCapacityAndInitCapacity.initialCapacity);
             LockerRobotBase robot = new PrimaryLockerRobot();
             robot.setLockers(Collections.singletonList(locker));
             robots.add(robot);
@@ -148,13 +148,13 @@ class LockerRobotDirectorTests {
         this.lockerRobotManager.setRobots(robots);
     }
 
-    static class FreeCapacityAndInitCapacityModel {
+    static class FreeCapacityAndInitialCapacityModel {
         int freeCapacity;
-        int initCapacity;
+        int initialCapacity;
 
-        public FreeCapacityAndInitCapacityModel(int freeCapacity, int initCapacity) {
+        public FreeCapacityAndInitialCapacityModel(int freeCapacity, int initialCapacity) {
             this.freeCapacity = freeCapacity;
-            this.initCapacity = initCapacity;
+            this.initialCapacity = initialCapacity;
         }
     }
 }
